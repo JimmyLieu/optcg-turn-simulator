@@ -3,8 +3,7 @@
  * https://optcgapi.com/documentation). Endpoints used: `/api/sets/card/{id}/`,
  * `/api/decks/card/{id}/`, `/api/sets/filtered/`, `/api/decks/filtered/`.
  *
- * Browser uses same-origin `/opcg-api` (Vite proxy in dev, Vercel rewrite → optcgapi.com in prod).
- * Do not use `/api/...` for this — Vercel reserves `/api/*` for Functions, so rewrites never run.
+ * Browser uses same-origin `/api/opcg` (Vite proxy in dev; Vercel Serverless Function in prod).
  */
 
 export type OptcgCardRow = {
@@ -16,7 +15,7 @@ export type OptcgCardRow = {
   card_color?: string
 }
 
-const DEFAULT_BASE = '/opcg-api'
+const DEFAULT_BASE = '/api/opcg'
 
 function apiBase(): string {
   const fromEnv = import.meta.env.VITE_OPTCG_API_BASE as string | undefined
