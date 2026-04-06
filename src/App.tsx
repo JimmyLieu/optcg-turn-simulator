@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { forwardRef, useMemo, useRef, useState } from 'react'
 import { TurnCurveBoard } from './components/TurnCurveBoard'
 import { MatchupEditor } from './editor/MatchupEditor'
 import { createNewMatchup } from './editor/model'
@@ -8,6 +8,19 @@ import './App.css'
 
 type Tab = 'edit' | 'preview'
 
+const AppFooter = forwardRef<HTMLElement>(function AppFooter(_, ref) {
+  return (
+    <footer ref={ref} className="app-footer">
+      <p className="app-footer__credit">
+        Made by{' '}
+        <a>
+          Jimmy Lieu (Best Shanks Player)
+        </a>
+      </p>
+    </footer>
+  )
+})
+
 function App() {
   const [tab, setTab] = useState<Tab>('edit')
   const [editor, setEditor] = useState(createNewMatchup)
@@ -15,13 +28,14 @@ function App() {
 
   const curve = useMemo(() => editorToMatchupCurve(editor), [editor])
   const boardRef = useRef<HTMLDivElement>(null)
+  const footerRef = useRef<HTMLElement>(null)
 
   const onDownloadPng = async () => {
     const el = boardRef.current
     if (!el) return
     setExporting(true)
     try {
-      await downloadMatchupCurvePng(el, editor.title)
+      await downloadMatchupCurvePng(el, editor.title, { footerElement: footerRef.current })
     } catch (e) {
       console.error(e)
       window.alert(
@@ -83,17 +97,12 @@ function App() {
       {tab === 'edit' ? (
         <MatchupEditor value={editor} onChange={setEditor} />
       ) : (
-        <TurnCurveBoard ref={boardRef} data={curve} />
+        <div ref={boardRef} className="preview-export-wrap">
+          <TurnCurveBoard data={curve} />
+        </div>
       )}
 
-      <footer className="app-footer">
-        <p className="app-footer__credit">
-          Made by{' '}
-          <a href="https://github.com/JimmyLieu" target="_blank" rel="noopener noreferrer">
-            Jimmy Lieu
-          </a>
-        </p>
-      </footer>
+      <AppFooter ref={footerRef} />
     </main>
   )
 }

@@ -1,4 +1,3 @@
-import { forwardRef } from 'react'
 import type { MatchupCurve, TurnRow as TurnRowType } from '../types/curve'
 import { deckPanelStyle } from '../lib/deckTheme'
 import { PreviewLeaderArt } from './PreviewLeaderArt'
@@ -83,26 +82,24 @@ function CurveBanner({
   )
 }
 
-export const TurnCurveBoard = forwardRef<HTMLDivElement, { data: MatchupCurve }>(
-  function TurnCurveBoard({ data }, ref) {
-    return (
-      <div ref={ref} className="curve-board">
-        <header className="curve-header">
-          <CurveBanner deck={data.firstDeck} variant="first" />
-          <CurveBanner deck={data.secondDeck} variant="second" />
-        </header>
+export function TurnCurveBoard({ data }: { data: MatchupCurve }) {
+  return (
+    <div className="curve-board">
+      <header className="curve-header">
+        <CurveBanner deck={data.firstDeck} variant="first" />
+        <CurveBanner deck={data.secondDeck} variant="second" />
+      </header>
 
-        <div className="curve-body">
-          {data.turns.map((row) => (
-            <TurnRow
-              key={row.turn}
-              row={row}
-              firstColors={data.firstDeck.colors}
-              secondColors={data.secondDeck.colors}
-            />
-          ))}
-        </div>
+      <div className="curve-body">
+        {data.turns.map((row) => (
+          <TurnRow
+            key={row.turn}
+            row={row}
+            firstColors={data.firstDeck.colors}
+            secondColors={data.secondDeck.colors}
+          />
+        ))}
       </div>
-    )
-  },
-)
+    </div>
+  )
+}
