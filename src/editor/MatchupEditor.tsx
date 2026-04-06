@@ -1,16 +1,13 @@
 import type { MatchupCurve } from '../types/curve'
 import {
-  DECK_COLORS,
-  DECK_DUAL_PAIRS,
-  encodeDeckColorSelect,
-  parseDeckColorSelect,
-} from '../lib/deckColors'
-import {
   type EditorMatchup,
   type EditorSideJoin,
   type EditorTurn,
+  type GoingFirst,
   emptyTurn,
 } from './model'
+import { CardPickField } from './CardPickField'
+import { LeaderDeckField } from './LeaderDeckField'
 
 type Props = {
   value: EditorMatchup
@@ -25,6 +22,8 @@ export function MatchupEditor({ value, onChange }: Props) {
     patch: Partial<MatchupCurve['firstDeck']>,
   ) => onChange({ ...value, [which]: { ...value[which], ...patch } })
 
+  const setGoingFirst = (goingFirst: GoingFirst) => onChange({ ...value, goingFirst })
+
   const setTurn = (index: number, turn: EditorTurn) => {
     const turns = value.turns.slice()
     turns[index] = turn
@@ -38,6 +37,8 @@ export function MatchupEditor({ value, onChange }: Props) {
     const turns = value.turns.filter((_, i) => i !== index)
     onChange({ ...value, turns })
   }
+
+  const goingFirst = value.goingFirst ?? 'firstDeck'
 
   return (
     <div className="mu-editor">
@@ -55,14 +56,36 @@ export function MatchupEditor({ value, onChange }: Props) {
         />
       </div>
 
+      <div className="mu-editor__section mu-editor__section--turn-order">
+        <label className="mu-editor__label" htmlFor="mu-going-first">
+          Who goes first?
+        </label>
+        <select
+          id="mu-going-first"
+          className="mu-editor__select mu-editor__select--wide"
+          value={goingFirst}
+          onChange={(e) => setGoingFirst(e.target.value as GoingFirst)}
+        >
+          <option value="firstDeck">
+            {value.firstDeck.name} (left)
+          </option>
+          <option value="secondDeck">
+            {value.secondDeck.name} (right)
+          </option>
+        </select>
+        <p className="mu-editor__hint">
+          Preview and exported curve use game order: left column = first turn, right = second.
+        </p>
+      </div>
+
       <div className="mu-editor__decks">
-        <DeckForm
-          label="First player"
+        <LeaderDeckField
+          label="Left deck"
           deck={value.firstDeck}
           onChange={(patch) => setDeck('firstDeck', patch)}
         />
-        <DeckForm
-          label="Second player"
+        <LeaderDeckField
+          label="Right deck"
           deck={value.secondDeck}
           onChange={(patch) => setDeck('secondDeck', patch)}
         />
@@ -71,9 +94,9 @@ export function MatchupEditor({ value, onChange }: Props) {
       <div className="mu-editor__section">
         <h2 className="mu-editor__h">Turns</h2>
         <p className="mu-editor__hint">
-          Add card IDs (e.g. <code>OP01-001</code>). With two or more cards per side, choose{' '}
-          <strong>Sequence</strong> (arrows), <strong>Or</strong> (alternatives), or <strong>And</strong>{' '}
-          (together).
+          Per <strong>left / right deck</strong>, add card IDs (e.g. <code>OP01-001</code>). With two or
+          more cards, choose <strong>Sequence</strong> (arrows), <strong>Or</strong>, or{' '}
+          <strong>And</strong>.
         </p>
 
         <ol className="mu-editor__turns">
@@ -93,13 +116,13 @@ export function MatchupEditor({ value, onChange }: Props) {
 
               <div className="mu-editor__turn-grid">
                 <SideEditor
-                  label="First player"
+                  label="Left deck"
                   joinGroupId={`turn-${ti}-first`}
                   side={turn.first}
                   onChange={(first) => setTurn(ti, { ...turn, first })}
                 />
                 <SideEditor
-                  label="Second player"
+                  label="Right deck"
                   joinGroupId={`turn-${ti}-second`}
                   side={turn.second}
                   onChange={(second) => setTurn(ti, { ...turn, second })}
@@ -115,71 +138,6 @@ export function MatchupEditor({ value, onChange }: Props) {
       </div>
     </div>
   )
-}
-
-function DeckForm({
-  label,
-  deck,
-  onChange,
-}: {
-  label: string
-  deck: MatchupCurve['firstDeck']
-  onChange: (patch: Partial<MatchupCurve['firstDeck']>) => void
-}) {
-  return (
-    <fieldset className="mu-editor__deck">
-      <legend>{label}</legend>
-      <label className="mu-editor__label">
-        Deck name
-        <input
-          className="mu-editor__input"
-          type="text"
-          value={deck.name}
-          onChange={(e) => onChange({ name: e.target.value })}
-        />
-      </label>
-      <label className="mu-editor__label">
-        Subtitle
-        <input
-          className="mu-editor__input"
-          type="text"
-          value={deck.subtitle}
-          onChange={(e) => onChange({ subtitle: e.target.value })}
-          placeholder="e.g. Goes first"
-        />
-      </label>
-      <label className="mu-editor__label">
-        Colors
-        <select
-          className="mu-editor__select"
-          value={encodeDeckColorSelect(deck.colors)}
-          onChange={(e) => onChange({ colors: parseDeckColorSelect(e.target.value) })}
-        >
-          <optgroup label="Single color">
-            {DECK_COLORS.map((c) => (
-              <option key={`mono:${c}`} value={`mono:${c}`}>
-                {capitalize(c)}
-              </option>
-            ))}
-          </optgroup>
-          <optgroup label="Two-color">
-            {DECK_DUAL_PAIRS.map(([a, b]) => {
-              const value = `dual:${a}-${b}`
-              return (
-                <option key={value} value={value}>
-                  {capitalize(a)} / {capitalize(b)}
-                </option>
-              )
-            })}
-          </optgroup>
-        </select>
-      </label>
-    </fieldset>
-  )
-}
-
-function capitalize(s: string): string {
-  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 function SideEditor({
@@ -257,18 +215,14 @@ function SideEditor({
         ) : null}
         {side.cards.map((slot, ci) => (
           <div key={ci} className="mu-editor__card-row">
-            <input
-              className="mu-editor__input"
-              type="text"
-              value={slot.id}
-              onChange={(e) => setCardId(ci, e.target.value)}
-              placeholder="OP01-001"
-              autoCapitalize="characters"
-              spellCheck={false}
+            <CardPickField
+              fieldId={`${joinGroupId}-card-${ci}`}
+              cardId={slot.id}
+              onCardIdChange={(id) => setCardId(ci, id)}
             />
             <button
               type="button"
-              className="mu-editor__btn"
+              className="mu-editor__btn mu-editor__card-row-remove"
               onClick={() => removeCard(ci)}
               aria-label="Remove card"
             >

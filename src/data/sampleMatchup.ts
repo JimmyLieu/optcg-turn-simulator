@@ -8,14 +8,16 @@ const C = (id: string, title?: string): CardRef =>
 export const sampleMatchup: MatchupCurve = {
   title: 'Sample matchup curve',
   firstDeck: {
-    name: 'Red / Blue — Leader: Lucy',
+    name: 'Roronoa Zoro (001)',
     subtitle: 'Goes first',
-    colors: { primary: 'red', secondary: 'blue' },
+    leaderCardId: 'OP01-001',
+    colors: { primary: 'red' },
   },
   secondDeck: {
-    name: 'Blue / Yellow — Leader: Nami',
+    name: 'Monkey.D.Luffy (001)',
     subtitle: 'Goes second',
-    colors: { primary: 'blue', secondary: 'yellow' },
+    leaderCardId: 'ST01-001',
+    colors: { primary: 'red' },
   },
   turns: [
     {

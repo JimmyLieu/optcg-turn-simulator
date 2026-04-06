@@ -20,10 +20,14 @@ export type EditorTurn = {
   second: EditorSide
 }
 
+/** Which deck (left or right in the form) takes the first turn in the game. */
+export type GoingFirst = 'firstDeck' | 'secondDeck'
+
 export type EditorMatchup = {
   title: string
   firstDeck: MatchupCurve['firstDeck']
   secondDeck: MatchupCurve['secondDeck']
+  goingFirst: GoingFirst
   turns: EditorTurn[]
 }
 
@@ -39,15 +43,18 @@ export function createNewMatchup(): EditorMatchup {
   return {
     title: 'New matchup',
     firstDeck: {
-      name: 'Deck A',
-      subtitle: 'Goes first',
-      colors: { primary: 'red', secondary: 'blue' },
+      leaderCardId: '',
+      name: 'Left deck',
+      subtitle: '',
+      colors: { primary: 'red' },
     },
     secondDeck: {
-      name: 'Deck B',
-      subtitle: 'Goes second',
-      colors: { primary: 'blue', secondary: 'yellow' },
+      leaderCardId: '',
+      name: 'Right deck',
+      subtitle: '',
+      colors: { primary: 'blue' },
     },
+    goingFirst: 'firstDeck',
     turns: [emptyTurn()],
   }
 }

@@ -1,5 +1,5 @@
 import type { CardRef, MatchupCurve, PlayExpr } from '../types/curve'
-import type { EditorMatchup, EditorSideJoin } from './model'
+import type { EditorMatchup, EditorSide, EditorSideJoin } from './model'
 
 function slotsToPlayExpr(
   cards: { id: string }[],
@@ -25,23 +25,41 @@ function slotsToPlayExpr(
   return { t: 'seq', steps: cardExprs }
 }
 
+function sideToTurn(side: EditorSide) {
+  return {
+    play: slotsToPlayExpr(side.cards, side.multiJoin),
+    callout: side.callout.trim() || undefined,
+  }
+}
+
+/**
+ * Output curve is always in game order: firstDeck = goes first, secondDeck = goes second.
+ */
 export function editorToMatchupCurve(editor: EditorMatchup): MatchupCurve {
   const title = editor.title.trim() || 'Untitled matchup'
 
+  const swap = editor.goingFirst === 'secondDeck'
+
+  const slotFirst = editor.firstDeck
+  const slotSecond = editor.secondDeck
+
+  const firstDeck = swap ? slotSecond : slotFirst
+  const secondDeck = swap ? slotFirst : slotSecond
+
   return {
     title,
-    firstDeck: editor.firstDeck,
-    secondDeck: editor.secondDeck,
+    firstDeck: {
+      ...firstDeck,
+      subtitle: 'Goes first',
+    },
+    secondDeck: {
+      ...secondDeck,
+      subtitle: 'Goes second',
+    },
     turns: editor.turns.map((row, i) => ({
       turn: i + 1,
-      firstPlayer: {
-        play: slotsToPlayExpr(row.first.cards, row.first.multiJoin),
-        callout: row.first.callout.trim() || undefined,
-      },
-      secondPlayer: {
-        play: slotsToPlayExpr(row.second.cards, row.second.multiJoin),
-        callout: row.second.callout.trim() || undefined,
-      },
+      firstPlayer: sideToTurn(swap ? row.second : row.first),
+      secondPlayer: sideToTurn(swap ? row.first : row.second),
     })),
   }
 }

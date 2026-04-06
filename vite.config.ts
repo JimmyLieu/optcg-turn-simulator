@@ -7,6 +7,11 @@ const optcgApiProxy = {
     changeOrigin: true,
     rewrite: (p: string) => p.replace(/^\/optcgapi/, ''),
   },
+  '/optcg-media': {
+    target: 'https://optcgapi.com',
+    changeOrigin: true,
+    rewrite: (p: string) => p.replace(/^\/optcg-media/, '/media'),
+  },
 } as const
 
 // https://vite.dev/config/

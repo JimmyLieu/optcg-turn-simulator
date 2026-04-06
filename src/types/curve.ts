@@ -43,13 +43,15 @@ export type MatchupCurve = {
   firstDeck: {
     name: string
     subtitle: string
-    /** Red / Black / Yellow / Blue / Green — mono or two-color */
     colors: DeckColors
+    /** English card_set_id for the leader, when set from the editor */
+    leaderCardId?: string
   }
   secondDeck: {
     name: string
     subtitle: string
     colors: DeckColors
+    leaderCardId?: string
   }
   turns: TurnRow[]
 }

@@ -28,6 +28,45 @@ function isErrorPayload(data: unknown): data is { error?: string } {
   return typeof data === 'object' && data !== null && 'error' in data && !Array.isArray(data)
 }
 
+async function fetchJsonArray(path: string): Promise<OptcgCardRow[]> {
+  const url = `${apiBase()}${path}`
+  try {
+    const res = await fetch(url)
+    if (!res.ok) return []
+    const data: unknown = await res.json()
+    if (isErrorPayload(data)) return []
+    if (!Array.isArray(data)) return []
+    return data as OptcgCardRow[]
+  } catch {
+    return []
+  }
+}
+
+/**
+ * Name search across booster and starter cards; merged and deduped by `card_set_id`.
+ */
+export async function searchCardsByName(query: string, limit = 60): Promise<OptcgCardRow[]> {
+  const q = query.trim()
+  if (q.length < 2) return []
+  const [fromSets, fromDecks] = await Promise.all([
+    fetchJsonArray(`/api/sets/filtered/?card_name=${encodeURIComponent(q)}`),
+    fetchJsonArray(`/api/decks/filtered/?card_name=${encodeURIComponent(q)}`),
+  ])
+  const map = new Map<string, OptcgCardRow>()
+  for (const row of [...fromSets, ...fromDecks]) {
+    if (!row.card_set_id || !row.card_name) continue
+    if (!map.has(row.card_set_id)) map.set(row.card_set_id, row)
+  }
+  return Array.from(map.values()).slice(0, limit)
+}
+
+/** Leaders only — for deck leader picker. */
+export async function searchLeadersByName(query: string, limit = 24): Promise<OptcgCardRow[]> {
+  const rows = await searchCardsByName(query, 120)
+  const leaders = rows.filter((r) => r.card_type === 'Leader')
+  return leaders.slice(0, limit)
+}
+
 async function fetchCardList(path: string): Promise<OptcgCardRow[] | null> {
   const url = `${apiBase()}${path}`
   try {

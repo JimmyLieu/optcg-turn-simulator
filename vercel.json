@@ -3,6 +3,10 @@
     {
       "source": "/optcgapi/:path*",
       "destination": "https://optcgapi.com/:path*"
+    },
+    {
+      "source": "/optcg-media/:path*",
+      "destination": "https://optcgapi.com/media/:path*"
     }
   ]
 }

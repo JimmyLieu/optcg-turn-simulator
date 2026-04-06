@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { fetchCardBySetIdDeduped, type OptcgCardRow } from '../lib/optcgApi'
+import { proxiedOptcgImageUrl } from '../lib/optcgImageProxy'
 
 export type OptcgCardState =
   | { status: 'loading' }
@@ -57,7 +58,7 @@ export function useOptcgCard(
     return {
       ...state,
       displayTitle: title,
-      displayImageUrl: state.row.card_image,
+      displayImageUrl: proxiedOptcgImageUrl(state.row.card_image),
     }
   }
   if (state.status === 'error') {

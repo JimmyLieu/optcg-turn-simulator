@@ -1,7 +1,35 @@
 .app-shell {
+  flex: 1;
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 24px 16px 48px;
+  padding: 24px 16px 32px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.app-footer {
+  margin-top: auto;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.app-footer__credit {
+  margin: 0;
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.app-footer__credit a {
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+}
+
+.app-footer__credit a:hover {
+  color: #fff;
+  text-decoration: underline;
 }
 
 .app-toolbar {
@@ -50,6 +78,28 @@
 .app-toolbar__tab.is-active {
   background: rgba(230, 69, 69, 0.2);
   color: #fff;
+}
+
+.app-toolbar__download {
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(230, 69, 69, 0.45);
+  background: rgba(230, 69, 69, 0.12);
+  color: #f8e8e8;
+  cursor: pointer;
+}
+
+.app-toolbar__download:hover:not(:disabled) {
+  background: rgba(230, 69, 69, 0.22);
+  border-color: rgba(230, 69, 69, 0.6);
+}
+
+.app-toolbar__download:disabled {
+  opacity: 0.6;
+  cursor: wait;
 }
 
 .app-toolbar__reset {
@@ -131,6 +181,135 @@
 
 .mu-editor__input--wide {
   max-width: 32rem;
+}
+
+.mu-editor__input--mono {
+  font-family: ui-monospace, monospace;
+  font-size: 0.88rem;
+}
+
+.mu-editor__select--wide {
+  max-width: 32rem;
+}
+
+.mu-editor__section--turn-order {
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.mu-editor__deck--leader {
+  align-items: stretch;
+}
+
+.mu-editor__leader-frame {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+  min-height: 200px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.mu-editor__leader-frame.has-id {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.mu-editor__leader-art {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  aspect-ratio: 112 / 156;
+  object-fit: cover;
+}
+
+.mu-editor__leader-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 200px;
+  padding: 16px;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.mu-editor__leader-name {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #e8eaef;
+  line-height: 1.35;
+}
+
+.mu-editor__leader-warn {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #f0b8b8;
+}
+
+.mu-editor__leader-search {
+  position: relative;
+  margin-bottom: 14px;
+}
+
+.mu-editor__leader-search-meta {
+  margin: 6px 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.mu-editor__leader-results {
+  position: absolute;
+  z-index: 20;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin: 4px 0 0;
+  padding: 6px 0;
+  list-style: none;
+  max-height: 240px;
+  overflow-y: auto;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #141820;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+}
+
+.mu-editor__leader-result {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  background: transparent;
+  color: #e8eaef;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mu-editor__leader-result:hover,
+.mu-editor__leader-result:focus-visible {
+  background: rgba(230, 69, 69, 0.15);
+  outline: none;
+}
+
+.mu-editor__leader-result-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.mu-editor__leader-result-id {
+  font-size: 0.72rem;
+  font-family: ui-monospace, monospace;
+  color: var(--muted);
 }
 
 .mu-editor__decks {
@@ -281,8 +460,46 @@
 
 .mu-editor__card-row {
   display: flex;
-  gap: 8px;
-  align-items: center;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.mu-editor__card-pick {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mu-editor__card-pick-search {
+  position: relative;
+}
+
+.mu-editor__card-pick-meta,
+.mu-editor__card-pick-error {
+  margin: 0;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.mu-editor__card-pick-error {
+  color: #f0b8b8;
+}
+
+.mu-editor__label--compact {
+  font-size: 0.72rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.mu-editor__leader-results--compact {
+  max-height: 200px;
+}
+
+.mu-editor__card-row-remove {
+  flex-shrink: 0;
+  margin-top: 1.75rem;
 }
 
 .mu-editor__card-row .mu-editor__input {
@@ -541,16 +758,6 @@
     radial-gradient(108% 82% at 18% 22%, rgba(165, 42, 55, 0.65), transparent 52%),
     radial-gradient(100% 78% at 82% 75%, rgba(175, 130, 32, 0.45), transparent 50%),
     linear-gradient(170deg, #160a0e 0%, #141008 100%);
-}
-
-.curve-title {
-  margin: 0;
-  padding: 12px 16px;
-  text-align: center;
-  font-size: 0.9rem;
-  color: var(--muted);
-  background: rgba(0, 0, 0, 0.25);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .curve-body {

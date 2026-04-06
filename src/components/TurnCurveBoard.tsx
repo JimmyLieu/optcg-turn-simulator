@@ -1,5 +1,7 @@
+import { forwardRef } from 'react'
 import type { MatchupCurve, TurnRow as TurnRowType } from '../types/curve'
-import { deckPanelClassName } from '../lib/deckColors'
+import { deckPanelStyle } from '../lib/deckTheme'
+import { PreviewLeaderArt } from './PreviewLeaderArt'
 import { PlayExprView } from './PlayExprView'
 
 function TurnRow({
@@ -14,7 +16,8 @@ function TurnRow({
   return (
     <div className="turn-row">
       <div
-        className={`turn-row__side turn-row__side--first ${deckPanelClassName(firstColors)}`}
+        className="turn-row__side turn-row__side--first deck-panel"
+        style={deckPanelStyle(firstColors)}
       >
         <div className="turn-row__plays">
           <PlayExprView expr={row.firstPlayer.play} />
@@ -29,7 +32,8 @@ function TurnRow({
       </div>
 
       <div
-        className={`turn-row__side turn-row__side--second ${deckPanelClassName(secondColors)}`}
+        className="turn-row__side turn-row__side--second deck-panel"
+        style={deckPanelStyle(secondColors)}
       >
         <div className="turn-row__plays">
           <PlayExprView expr={row.secondPlayer.play} />
@@ -42,36 +46,63 @@ function TurnRow({
   )
 }
 
-export function TurnCurveBoard({ data }: { data: MatchupCurve }) {
+function CurveBanner({
+  deck,
+  variant,
+}: {
+  deck: MatchupCurve['firstDeck']
+  variant: 'first' | 'second'
+}) {
+  const art = <PreviewLeaderArt cardId={deck.leaderCardId} />
+  const text = (
+    <div className="curve-banner__text">
+      <span className="curve-banner__name">{deck.name}</span>
+      <span className="curve-banner__role">{deck.subtitle}</span>
+    </div>
+  )
+
   return (
-    <div className="curve-board">
-      <header className="curve-header">
-        <div
-          className={`curve-banner curve-banner--first ${deckPanelClassName(data.firstDeck.colors)}`}
-        >
-          <span className="curve-banner__name">{data.firstDeck.name}</span>
-          <span className="curve-banner__role">{data.firstDeck.subtitle}</span>
-        </div>
-        <div
-          className={`curve-banner curve-banner--second ${deckPanelClassName(data.secondDeck.colors)}`}
-        >
-          <span className="curve-banner__name">{data.secondDeck.name}</span>
-          <span className="curve-banner__role">{data.secondDeck.subtitle}</span>
-        </div>
-      </header>
-
-      <p className="curve-title">{data.title}</p>
-
-      <div className="curve-body">
-        {data.turns.map((row) => (
-          <TurnRow
-            key={row.turn}
-            row={row}
-            firstColors={data.firstDeck.colors}
-            secondColors={data.secondDeck.colors}
-          />
-        ))}
+    <div
+      className={`curve-banner curve-banner--${variant} deck-panel`}
+      style={deckPanelStyle(deck.colors)}
+    >
+      <div className="curve-banner__inner">
+        {variant === 'first' ? (
+          <>
+            {art}
+            {text}
+          </>
+        ) : (
+          <>
+            {text}
+            {art}
+          </>
+        )}
       </div>
     </div>
   )
 }
+
+export const TurnCurveBoard = forwardRef<HTMLDivElement, { data: MatchupCurve }>(
+  function TurnCurveBoard({ data }, ref) {
+    return (
+      <div ref={ref} className="curve-board">
+        <header className="curve-header">
+          <CurveBanner deck={data.firstDeck} variant="first" />
+          <CurveBanner deck={data.secondDeck} variant="second" />
+        </header>
+
+        <div className="curve-body">
+          {data.turns.map((row) => (
+            <TurnRow
+              key={row.turn}
+              row={row}
+              firstColors={data.firstDeck.colors}
+              secondColors={data.secondDeck.colors}
+            />
+          ))}
+        </div>
+      </div>
+    )
+  },
+)

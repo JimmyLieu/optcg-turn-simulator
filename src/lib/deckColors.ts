@@ -31,20 +31,6 @@ export const DECK_DUAL_PAIRS: [DeckColor, DeckColor][] = (() => {
   return out
 })()
 
-function dualClass(a: DeckColor, b: DeckColor): string {
-  const [x, y] = sortedPair(a, b)
-  return `deck-panel--dual-${x}-${y}`
-}
-
-/** CSS classes for `.deck-panel` (banner + turn panels). */
-export function deckPanelClassName(colors: DeckColors): string {
-  const base = 'deck-panel'
-  if (!colors.secondary || colors.secondary === colors.primary) {
-    return `${base} ${base}--mono-${colors.primary}`
-  }
-  return `${base} ${dualClass(colors.primary, colors.secondary)}`
-}
-
 function labelColor(c: DeckColor): string {
   return c.charAt(0).toUpperCase() + c.slice(1)
 }
