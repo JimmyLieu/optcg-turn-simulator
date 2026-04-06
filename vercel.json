@@ -1,4 +1,5 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     {
       "source": "/optcgapi/:path*",
@@ -7,6 +8,10 @@
     {
       "source": "/optcg-media/:path*",
       "destination": "https://optcgapi.com/media/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }

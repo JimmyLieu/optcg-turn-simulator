@@ -16,7 +16,13 @@ const DEFAULT_BASE = '/optcgapi'
 
 function apiBase(): string {
   const fromEnv = import.meta.env.VITE_OPTCG_API_BASE as string | undefined
-  return (fromEnv && fromEnv.length > 0 ? fromEnv : DEFAULT_BASE).replace(/\/$/, '')
+  const raw = fromEnv && fromEnv.length > 0 ? fromEnv : DEFAULT_BASE
+  const trimmed = raw.replace(/\/$/, '')
+  // In the browser, a full https://optcgapi.com URL hits CORS; use same-origin /optcgapi (Vite + Vercel proxy).
+  if (typeof window !== 'undefined' && /^https?:\/\//i.test(trimmed)) {
+    return DEFAULT_BASE.replace(/\/$/, '')
+  }
+  return trimmed
 }
 
 /** Normalize user input to API form (e.g. op01-001 → OP01-001). */
