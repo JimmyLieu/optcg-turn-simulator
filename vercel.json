@@ -6,11 +6,11 @@
       "destination": "https://optcgapi.com/media/:path*"
     },
     {
-      "source": "/api/opcg/:path*",
+      "source": "/opcg-api/:path*",
       "destination": "https://optcgapi.com/:path*"
     },
     {
-      "source": "/((?!api/).*)",
+      "source": "/((?!api/)(?!opcg-api/).*)",
       "destination": "/index.html"
     }
   ]
