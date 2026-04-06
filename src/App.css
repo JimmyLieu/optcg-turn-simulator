@@ -207,6 +207,53 @@
   }
 }
 
+.mu-editor__join {
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.mu-editor__join-legend {
+  padding: 0 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.mu-editor__join-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin-top: 8px;
+}
+
+.mu-editor__join-option {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #e8eaef;
+  cursor: pointer;
+}
+
+.mu-editor__join-option input {
+  accent-color: #e64545;
+}
+
+.mu-editor__join-hint {
+  width: 100%;
+  margin-left: 22px;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+
 .mu-editor__side-title {
   margin: 0 0 10px;
   font-size: 0.95rem;

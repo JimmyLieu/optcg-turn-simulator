@@ -5,9 +5,14 @@ export type EditorCardSlot = {
   id: string
 }
 
+/** How 2+ cards combine in the preview (single-card ignores this). */
+export type EditorSideJoin = 'seq' | 'or' | 'and'
+
 export type EditorSide = {
   cards: EditorCardSlot[]
   callout: string
+  /** Used when there are 2+ cards. Default `seq` (vertical arrows). */
+  multiJoin: EditorSideJoin
 }
 
 export type EditorTurn = {
@@ -23,7 +28,7 @@ export type EditorMatchup = {
 }
 
 export function emptySide(): EditorSide {
-  return { cards: [], callout: '' }
+  return { cards: [], callout: '', multiJoin: 'seq' }
 }
 
 export function emptyTurn(): EditorTurn {

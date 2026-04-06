@@ -5,7 +5,12 @@ import {
   encodeDeckColorSelect,
   parseDeckColorSelect,
 } from '../lib/deckColors'
-import { type EditorMatchup, type EditorTurn, emptyTurn } from './model'
+import {
+  type EditorMatchup,
+  type EditorSideJoin,
+  type EditorTurn,
+  emptyTurn,
+} from './model'
 
 type Props = {
   value: EditorMatchup
@@ -66,8 +71,9 @@ export function MatchupEditor({ value, onChange }: Props) {
       <div className="mu-editor__section">
         <h2 className="mu-editor__h">Turns</h2>
         <p className="mu-editor__hint">
-          Add card IDs in order (e.g. <code>OP01-001</code>, <code>ST07-002</code>). Multiple cards in
-          a row become a sequence with arrows in the preview.
+          Add card IDs (e.g. <code>OP01-001</code>). With two or more cards per side, choose{' '}
+          <strong>Sequence</strong> (arrows), <strong>Or</strong> (alternatives), or <strong>And</strong>{' '}
+          (together).
         </p>
 
         <ol className="mu-editor__turns">
@@ -88,11 +94,13 @@ export function MatchupEditor({ value, onChange }: Props) {
               <div className="mu-editor__turn-grid">
                 <SideEditor
                   label="First player"
+                  joinGroupId={`turn-${ti}-first`}
                   side={turn.first}
                   onChange={(first) => setTurn(ti, { ...turn, first })}
                 />
                 <SideEditor
                   label="Second player"
+                  joinGroupId={`turn-${ti}-second`}
                   side={turn.second}
                   onChange={(second) => setTurn(ti, { ...turn, second })}
                 />
@@ -176,10 +184,12 @@ function capitalize(s: string): string {
 
 function SideEditor({
   label,
+  joinGroupId,
   side,
   onChange,
 }: {
   label: string
+  joinGroupId: string
   side: EditorTurn['first']
   onChange: (next: EditorTurn['first']) => void
 }) {
@@ -197,9 +207,50 @@ function SideEditor({
     onChange({ ...side, cards })
   }
 
+  const setMultiJoin = (multiJoin: EditorSideJoin) => onChange({ ...side, multiJoin })
+
+  const multiJoin = side.multiJoin ?? 'seq'
+
   return (
     <div className="mu-editor__side">
       <h3 className="mu-editor__side-title">{label}</h3>
+      {side.cards.length >= 2 ? (
+        <fieldset className="mu-editor__join">
+          <legend className="mu-editor__join-legend">Multiple cards</legend>
+          <div className="mu-editor__join-options" role="radiogroup" aria-label="How to combine cards">
+            <label className="mu-editor__join-option">
+              <input
+                type="radio"
+                name={joinGroupId}
+                checked={multiJoin === 'seq'}
+                onChange={() => setMultiJoin('seq')}
+              />
+              <span>Sequence</span>
+              <span className="mu-editor__join-hint">arrows</span>
+            </label>
+            <label className="mu-editor__join-option">
+              <input
+                type="radio"
+                name={joinGroupId}
+                checked={multiJoin === 'or'}
+                onChange={() => setMultiJoin('or')}
+              />
+              <span>Or</span>
+              <span className="mu-editor__join-hint">pick one</span>
+            </label>
+            <label className="mu-editor__join-option">
+              <input
+                type="radio"
+                name={joinGroupId}
+                checked={multiJoin === 'and'}
+                onChange={() => setMultiJoin('and')}
+              />
+              <span>And</span>
+              <span className="mu-editor__join-hint">together</span>
+            </label>
+          </div>
+        </fieldset>
+      ) : null}
       <div className="mu-editor__cards">
         {side.cards.length === 0 ? (
           <p className="mu-editor__empty-cards">No cards — add at least one for the preview.</p>

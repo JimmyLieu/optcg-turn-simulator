@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/optcgapi/:path*",
+      "destination": "https://optcgapi.com/:path*"
+    }
+  ]
+}
