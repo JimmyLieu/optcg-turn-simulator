@@ -1,6 +1,9 @@
 /**
- * OPTCG API (https://optcgapi.com) — English card data + image URLs.
- * Browser uses same-origin /api/opcg (Vite proxy in dev, Vercel Edge function in prod).
+ * OPTCG API — English card data + image URLs (GET-only; see
+ * https://optcgapi.com/documentation). Endpoints used: `/api/sets/card/{id}/`,
+ * `/api/decks/card/{id}/`, `/api/sets/filtered/`, `/api/decks/filtered/`.
+ *
+ * Browser uses same-origin `/api/opcg` (Vite proxy in dev, Vercel Edge in prod).
  */
 
 export type OptcgCardRow = {
