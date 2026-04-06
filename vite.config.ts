@@ -2,10 +2,10 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 const optcgApiProxy = {
-  '/optcgapi': {
+  '/api/opcg': {
     target: 'https://optcgapi.com',
     changeOrigin: true,
-    rewrite: (p: string) => p.replace(/^\/optcgapi/, ''),
+    rewrite: (p: string) => p.replace(/^\/api\/opcg/, ''),
   },
   '/optcg-media': {
     target: 'https://optcgapi.com',
@@ -18,7 +18,7 @@ const optcgApiProxy = {
 export default defineConfig({
   plugins: [react()],
   server: {
-    // OPTCG API does not send CORS headers; proxy JSON in dev/preview. Deploy with the same /optcgapi → optcgapi.com rewrite.
+    // OPTCG API does not send CORS headers; proxy JSON in dev. Prod: api/opcg/[...path].ts Edge function.
     proxy: { ...optcgApiProxy },
   },
   preview: {

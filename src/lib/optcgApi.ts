@@ -1,6 +1,6 @@
 /**
  * OPTCG API (https://optcgapi.com) — English card data + image URLs.
- * Browser requests go through the Vite dev proxy at /optcgapi to avoid CORS.
+ * Browser uses same-origin /api/opcg (Vite proxy in dev, Vercel Edge function in prod).
  */
 
 export type OptcgCardRow = {
@@ -12,13 +12,13 @@ export type OptcgCardRow = {
   card_color?: string
 }
 
-const DEFAULT_BASE = '/optcgapi'
+const DEFAULT_BASE = '/api/opcg'
 
 function apiBase(): string {
   const fromEnv = import.meta.env.VITE_OPTCG_API_BASE as string | undefined
   const raw = fromEnv && fromEnv.length > 0 ? fromEnv : DEFAULT_BASE
   const trimmed = raw.replace(/\/$/, '')
-  // In the browser, a full https://optcgapi.com URL hits CORS; use same-origin /optcgapi (Vite + Vercel proxy).
+  // In the browser, a full https://optcgapi.com URL hits CORS; use same-origin proxy.
   if (typeof window !== 'undefined' && /^https?:\/\//i.test(trimmed)) {
     return DEFAULT_BASE.replace(/\/$/, '')
   }
