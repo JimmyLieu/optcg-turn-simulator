@@ -18,7 +18,7 @@ const optcgApiProxy = {
 export default defineConfig({
   plugins: [react()],
   server: {
-    // OPTCG API does not send CORS headers; proxy JSON in dev. Prod: api/opcg/[...path].ts Edge function.
+    // OPTCG API does not send CORS headers; proxy JSON in dev. Prod: vercel.json rewrites /api/opcg/* → optcgapi.com.
     proxy: { ...optcgApiProxy },
   },
   preview: {

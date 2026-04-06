@@ -6,6 +6,10 @@
       "destination": "https://optcgapi.com/media/:path*"
     },
     {
+      "source": "/api/opcg/:path*",
+      "destination": "https://optcgapi.com/:path*"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/index.html"
     }

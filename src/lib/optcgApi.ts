@@ -3,7 +3,7 @@
  * https://optcgapi.com/documentation). Endpoints used: `/api/sets/card/{id}/`,
  * `/api/decks/card/{id}/`, `/api/sets/filtered/`, `/api/decks/filtered/`.
  *
- * Browser uses same-origin `/api/opcg` (Vite proxy in dev, Vercel Edge in prod).
+ * Browser uses same-origin `/api/opcg` (Vite proxy in dev, Vercel rewrite → optcgapi.com in prod).
  */
 
 export type OptcgCardRow = {
