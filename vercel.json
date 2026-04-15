@@ -5,11 +5,7 @@
       "source": "/optcg-media/:path*",
       "destination": "https://optcgapi.com/media/:path*"
     },
-    {
-      "source": "/optcg-json/:path*",
-      "destination": "https://optcgapi.com/:path*"
-    },
-    {
+{
       "source": "/(.*)",
       "destination": "/index.html"
     }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { fetchCardBySetIdDeduped, type OptcgCardRow } from '../lib/optcgApi'
+import { fetchCardBySetId, type OptcgCardRow } from '../lib/optcgApi'
 import { proxiedOptcgImageUrl } from '../lib/optcgImageProxy'
 
 export type OptcgCardState =
@@ -43,7 +43,7 @@ export function useOptcgCard(
 
     let cancelled = false
     setState({ status: 'loading' })
-    fetchCardBySetIdDeduped(cardSetId).then((row) => {
+    fetchCardBySetId(cardSetId).then((row) => {
       if (cancelled) return
       if (row) setState({ status: 'ok', row })
       else setState({ status: 'error', message: 'Card not found' })
