@@ -80,12 +80,12 @@ export function MatchupEditor({ value, onChange }: Props) {
 
       <div className="mu-editor__decks">
         <LeaderDeckField
-          label="Left deck"
+          label=""
           deck={value.firstDeck}
           onChange={(patch) => setDeck('firstDeck', patch)}
         />
         <LeaderDeckField
-          label="Right deck"
+          label=""
           deck={value.secondDeck}
           onChange={(patch) => setDeck('secondDeck', patch)}
         />

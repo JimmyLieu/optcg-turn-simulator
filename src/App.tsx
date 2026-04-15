@@ -14,7 +14,7 @@ const AppFooter = forwardRef<HTMLElement>(function AppFooter(_, ref) {
       <p className="app-footer__credit">
         Made by{' '}
         <a>
-          Jimmy Lieu (Best Shanks Player)
+          Jmi 
         </a>
       </p>
     </footer>
