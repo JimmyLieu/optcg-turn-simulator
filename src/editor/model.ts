@@ -11,8 +11,8 @@ export type EditorSideJoin = 'seq' | 'or' | 'and'
 export type EditorSide = {
   cards: EditorCardSlot[]
   callout: string
-  /** Used when there are 2+ cards. Default `seq` (vertical arrows). */
-  multiJoin: EditorSideJoin
+  /** One join per gap between consecutive cards. Length = cards.length - 1. */
+  joins: EditorSideJoin[]
 }
 
 export type EditorTurn = {
@@ -32,7 +32,23 @@ export type EditorMatchup = {
 }
 
 export function emptySide(): EditorSide {
-  return { cards: [], callout: '', multiJoin: 'seq' }
+  return { cards: [], callout: '', joins: [] }
+}
+
+export function sideWithCardAdded(side: EditorSide): EditorSide {
+  const cards = [...side.cards, { id: '' }]
+  const joins = [...side.joins]
+  if (cards.length >= 2) joins.push('seq')
+  return { ...side, cards, joins }
+}
+
+export function sideWithCardRemoved(side: EditorSide, index: number): EditorSide {
+  const cards = side.cards.filter((_, i) => i !== index)
+  const joins = side.joins.slice()
+  if (joins.length > 0) {
+    joins.splice(index === 0 ? 0 : index - 1, 1)
+  }
+  return { ...side, cards, joins: joins.slice(0, Math.max(0, cards.length - 1)) }
 }
 
 export function emptyTurn(): EditorTurn {

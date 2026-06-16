@@ -1,33 +1,43 @@
 import type { CardRef, MatchupCurve, PlayExpr } from '../types/curve'
 import type { EditorMatchup, EditorSide, EditorSideJoin } from './model'
 
-function slotsToPlayExpr(
-  cards: { id: string }[],
-  multiJoin: EditorSideJoin | undefined,
-): PlayExpr {
+function cardExpr(card: CardRef): PlayExpr {
+  return { t: 'card', card }
+}
+
+function combinePlay(left: PlayExpr, join: EditorSideJoin, right: PlayExpr): PlayExpr {
+  if (join === 'or') {
+    if (left.t === 'or') return { t: 'or', branches: [...left.branches, right] }
+    return { t: 'or', branches: [left, right] }
+  }
+  if (join === 'and') {
+    if (left.t === 'and') return { t: 'and', parts: [...left.parts, right] }
+    return { t: 'and', parts: [left, right] }
+  }
+  if (left.t === 'seq') return { t: 'seq', steps: [...left.steps, right] }
+  return { t: 'seq', steps: [left, right] }
+}
+
+function slotsToPlayExpr(cards: { id: string }[], joins: EditorSideJoin[] | undefined): PlayExpr {
   const refs: CardRef[] = cards
     .map((c) => c.id.trim())
     .filter(Boolean)
     .map((id) => ({ id }))
 
   if (refs.length === 0) return { t: 'empty' }
-  if (refs.length === 1) return { t: 'card', card: refs[0] }
+  if (refs.length === 1) return cardExpr(refs[0])
 
-  const join = multiJoin ?? 'seq'
-  const cardExprs = refs.map((card) => ({ t: 'card' as const, card }))
-
-  if (join === 'or') {
-    return { t: 'or', branches: cardExprs }
+  let expr = cardExpr(refs[0])
+  for (let i = 1; i < refs.length; i++) {
+    const join = joins?.[i - 1] ?? 'seq'
+    expr = combinePlay(expr, join, cardExpr(refs[i]))
   }
-  if (join === 'and') {
-    return { t: 'and', parts: cardExprs }
-  }
-  return { t: 'seq', steps: cardExprs }
+  return expr
 }
 
 function sideToTurn(side: EditorSide) {
   return {
-    play: slotsToPlayExpr(side.cards, side.multiJoin),
+    play: slotsToPlayExpr(side.cards, side.joins),
     callout: side.callout.trim() || undefined,
   }
 }

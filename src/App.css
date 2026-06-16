@@ -395,6 +395,42 @@
   }
 }
 
+.mu-editor__join-gap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0 6px 4px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px dashed rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.mu-editor__join-gap-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.mu-editor__join-gap-select {
+  flex: 1;
+  min-width: 0;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.35);
+  color: #e8eaef;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.mu-editor__card-stack {
+  display: flex;
+  flex-direction: column;
+}
+
 .mu-editor__join {
   margin: 0 0 12px;
   padding: 12px 14px;

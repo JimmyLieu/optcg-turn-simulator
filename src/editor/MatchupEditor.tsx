@@ -5,6 +5,8 @@ import {
   type EditorTurn,
   type GoingFirst,
   emptyTurn,
+  sideWithCardAdded,
+  sideWithCardRemoved,
 } from './model'
 import { CardPickField } from './CardPickField'
 import { LeaderDeckField } from './LeaderDeckField'
@@ -94,8 +96,8 @@ export function MatchupEditor({ value, onChange }: Props) {
       <div className="mu-editor__section">
         <h2 className="mu-editor__h">Turns</h2>
         <p className="mu-editor__hint">
-          Per <strong>left / right deck</strong>, add card IDs (e.g. <code>OP01-001</code>). With two or
-          more cards, choose <strong>Sequence</strong> (arrows), <strong>Or</strong>, or{' '}
+          Per <strong>left / right deck</strong>, add card IDs (e.g. <code>OP01-001</code>). Between each
+          pair of cards, choose <strong>Sequence</strong> (arrows), <strong>Or</strong>, or{' '}
           <strong>And</strong>.
         </p>
 
@@ -140,6 +142,34 @@ export function MatchupEditor({ value, onChange }: Props) {
   )
 }
 
+function JoinPicker({
+  id,
+  value,
+  onChange,
+}: {
+  id: string
+  value: EditorSideJoin
+  onChange: (next: EditorSideJoin) => void
+}) {
+  return (
+    <div className="mu-editor__join-gap">
+      <label className="mu-editor__join-gap-label" htmlFor={id}>
+        Then
+      </label>
+      <select
+        id={id}
+        className="mu-editor__join-gap-select"
+        value={value}
+        onChange={(e) => onChange(e.target.value as EditorSideJoin)}
+      >
+        <option value="seq">Sequence ↓</option>
+        <option value="or">Or</option>
+        <option value="and">And +</option>
+      </select>
+    </div>
+  )
+}
+
 function SideEditor({
   label,
   joinGroupId,
@@ -151,8 +181,7 @@ function SideEditor({
   side: EditorTurn['first']
   onChange: (next: EditorTurn['first']) => void
 }) {
-  const addCard = () =>
-    onChange({ ...side, cards: [...side.cards, { id: '' }] })
+  const addCard = () => onChange(sideWithCardAdded(side))
 
   const setCardId = (index: number, id: string) => {
     const cards = side.cards.slice()
@@ -160,74 +189,45 @@ function SideEditor({
     onChange({ ...side, cards })
   }
 
-  const removeCard = (index: number) => {
-    const cards = side.cards.filter((_, i) => i !== index)
-    onChange({ ...side, cards })
+  const removeCard = (index: number) => onChange(sideWithCardRemoved(side, index))
+
+  const setJoin = (index: number, join: EditorSideJoin) => {
+    const joins = side.joins.slice()
+    joins[index] = join
+    onChange({ ...side, joins })
   }
-
-  const setMultiJoin = (multiJoin: EditorSideJoin) => onChange({ ...side, multiJoin })
-
-  const multiJoin = side.multiJoin ?? 'seq'
 
   return (
     <div className="mu-editor__side">
       <h3 className="mu-editor__side-title">{label}</h3>
-      {side.cards.length >= 2 ? (
-        <fieldset className="mu-editor__join">
-          <legend className="mu-editor__join-legend">Multiple cards</legend>
-          <div className="mu-editor__join-options" role="radiogroup" aria-label="How to combine cards">
-            <label className="mu-editor__join-option">
-              <input
-                type="radio"
-                name={joinGroupId}
-                checked={multiJoin === 'seq'}
-                onChange={() => setMultiJoin('seq')}
-              />
-              <span>Sequence</span>
-              <span className="mu-editor__join-hint">arrows</span>
-            </label>
-            <label className="mu-editor__join-option">
-              <input
-                type="radio"
-                name={joinGroupId}
-                checked={multiJoin === 'or'}
-                onChange={() => setMultiJoin('or')}
-              />
-              <span>Or</span>
-              <span className="mu-editor__join-hint">pick one</span>
-            </label>
-            <label className="mu-editor__join-option">
-              <input
-                type="radio"
-                name={joinGroupId}
-                checked={multiJoin === 'and'}
-                onChange={() => setMultiJoin('and')}
-              />
-              <span>And</span>
-              <span className="mu-editor__join-hint">together</span>
-            </label>
-          </div>
-        </fieldset>
-      ) : null}
       <div className="mu-editor__cards">
         {side.cards.length === 0 ? (
           <p className="mu-editor__empty-cards">No cards — add at least one for the preview.</p>
         ) : null}
         {side.cards.map((slot, ci) => (
-          <div key={ci} className="mu-editor__card-row">
-            <CardPickField
-              fieldId={`${joinGroupId}-card-${ci}`}
-              cardId={slot.id}
-              onCardIdChange={(id) => setCardId(ci, id)}
-            />
-            <button
-              type="button"
-              className="mu-editor__btn mu-editor__card-row-remove"
-              onClick={() => removeCard(ci)}
-              aria-label="Remove card"
-            >
-              ×
-            </button>
+          <div key={ci} className="mu-editor__card-stack">
+            {ci > 0 ? (
+              <JoinPicker
+                id={`${joinGroupId}-join-${ci - 1}`}
+                value={side.joins[ci - 1] ?? 'seq'}
+                onChange={(join) => setJoin(ci - 1, join)}
+              />
+            ) : null}
+            <div className="mu-editor__card-row">
+              <CardPickField
+                fieldId={`${joinGroupId}-card-${ci}`}
+                cardId={slot.id}
+                onCardIdChange={(id) => setCardId(ci, id)}
+              />
+              <button
+                type="button"
+                className="mu-editor__btn mu-editor__card-row-remove"
+                onClick={() => removeCard(ci)}
+                aria-label="Remove card"
+              >
+                ×
+              </button>
+            </div>
           </div>
         ))}
         <button type="button" className="mu-editor__btn" onClick={addCard}>
