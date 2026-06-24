@@ -1,7 +1,7 @@
 import { toPng } from 'html-to-image'
 
 /** Matches :root --bg-deep so letterboxing matches the app. */
-const EXPORT_BG = '#0c0e12'
+const EXPORT_BG = '#ffffff'
 
 function waitForImages(root: HTMLElement): Promise<void> {
   const imgs = root.querySelectorAll('img')
