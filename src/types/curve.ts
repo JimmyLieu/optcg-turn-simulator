@@ -31,11 +31,21 @@ export type PlayLineItem = {
   via?: 'and' | 'effect' | 'or' | 'seq'
 }
 
+export type CounterEntry = {
+  cardId: string
+  cardTitle?: string
+  counterValue?: number
+}
+
 export type ActionLine = {
   text: string
-  kind?: 'effect' | 'sub' | 'combat' | 'ko' | 'damage' | 'concede' | 'note'
+  kind?: 'effect' | 'sub' | 'combat' | 'ko' | 'damage' | 'concede' | 'note' | 'counter'
   /** Combat result label, e.g. "+1 damage" or "K.O." */
   outcome?: string
+  cardId?: string
+  cardTitle?: string
+  counterValue?: number
+  counters?: CounterEntry[]
 }
 
 export type TurnSide = {
@@ -46,6 +56,7 @@ export type TurnSide = {
   /** Optional banner (e.g. mechanic reminder) */
   callout?: string
   don?: number
+  hand?: string[]
   actions?: ActionLine[]
 }
 

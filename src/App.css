@@ -873,25 +873,6 @@
   text-align: center;
 }
 
-.log-card__cost {
-  position: absolute;
-  top: -6px;
-  left: -6px;
-  z-index: 1;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #e8c84a;
-  border: 1px solid #c4a32a;
-  color: #111;
-  font-size: 0.72rem;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-}
-
 .log-card__art {
   display: block;
   width: 72px;
@@ -937,6 +918,42 @@
   color: var(--muted);
 }
 
+.log-card--compact {
+  width: 44px;
+}
+
+.log-card--compact .log-card__art {
+  width: 40px;
+  height: 56px;
+}
+
+.log-card--compact .log-card__art--missing {
+  font-size: 0.5rem;
+  padding: 2px;
+}
+
+.log-hand {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+}
+
+.log-hand__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.log-hand__strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
 .log-actions {
   margin: 10px 0 0;
   padding: 0;
@@ -953,6 +970,73 @@
 
 .log-actions__effect::before {
   content: '– ';
+}
+
+.log-card--counter {
+  transform: rotate(-4deg);
+}
+
+.log-card--counter .log-card__art {
+  border-color: rgba(var(--accent-rgb), 0.55);
+  box-shadow: 0 0 0 1px rgba(var(--accent-rgb), 0.2);
+}
+
+.log-card__counter-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  z-index: 2;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.58rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.log-actions__combat-block {
+  margin-top: 6px;
+}
+
+.log-actions__combat-block .log-actions__counter {
+  margin-bottom: 4px;
+}
+
+.log-actions__counter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(var(--accent-rgb), 0.08);
+  border: 1px solid rgba(var(--accent-rgb), 0.18);
+}
+
+.log-counter__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.log-counter__label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.log-counter__value {
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #222;
 }
 
 .log-actions__sub {

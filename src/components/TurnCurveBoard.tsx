@@ -1,4 +1,4 @@
-import type { ActionLine, CardRef, MatchupCurve, PlayLineItem, TurnRow as TurnRowType, TurnSide } from '../types/curve'
+import type { ActionLine, CardRef, CounterEntry, MatchupCurve, PlayLineItem, TurnRow as TurnRowType, TurnSide } from '../types/curve'
 import { leaderBarStyle } from '../lib/deckTheme'
 import { useOptcgCard } from '../hooks/useOptcgCard'
 
@@ -9,8 +9,16 @@ function formatPower(raw: string | undefined): string | undefined {
   return n.toLocaleString('en-US')
 }
 
-function LogCard({ card }: { card: CardRef }) {
-  const { status, displayTitle, displayImageUrl, displayCost, displayPower } = useOptcgCard(card.id, {
+function LogCard({
+  card,
+  compact,
+  counter,
+}: {
+  card: CardRef
+  compact?: boolean
+  counter?: boolean
+}) {
+  const { status, displayTitle, displayImageUrl, displayPower } = useOptcgCard(card.id, {
     imageUrl: card.imageUrl,
     title: card.title,
   })
@@ -18,8 +26,11 @@ function LogCard({ card }: { card: CardRef }) {
   const power = formatPower(displayPower)
 
   return (
-    <figure className="log-card" title={displayTitle}>
-      {displayCost ? <span className="log-card__cost">{displayCost}</span> : null}
+    <figure
+      className={`log-card${compact ? ' log-card--compact' : ''}${counter ? ' log-card--counter' : ''}`}
+      title={displayTitle}
+    >
+      {counter ? <span className="log-card__counter-badge">C</span> : null}
       {status === 'loading' ? (
         <div className="log-card__art log-card__art--skeleton" aria-hidden="true" />
       ) : status === 'error' || !displayImageUrl ? (
@@ -29,13 +40,15 @@ function LogCard({ card }: { card: CardRef }) {
       ) : (
         <img className="log-card__art" src={displayImageUrl} alt="" width={72} height={100} loading="lazy" />
       )}
-      <figcaption className="log-card__cap">
-        <span className="log-card__name">{short}</span>
-        <span className="log-card__meta">
-          {card.id}
-          {power ? ` — ${power}` : ''}
-        </span>
-      </figcaption>
+      {!compact ? (
+        <figcaption className="log-card__cap">
+          <span className="log-card__name">{short}</span>
+          <span className="log-card__meta">
+            {card.id}
+            {power ? ` — ${power}` : ''}
+          </span>
+        </figcaption>
+      ) : null}
     </figure>
   )
 }
@@ -63,30 +76,75 @@ function PlayStrip({ side }: { side: TurnSide }) {
   )
 }
 
+function CounterChip({ counter }: { counter: CounterEntry }) {
+  return (
+    <div className="log-actions__counter">
+      <LogCard card={{ id: counter.cardId, title: counter.cardTitle }} compact counter />
+      <div className="log-counter__meta">
+        <span className="log-counter__label">Counter</span>
+        {counter.counterValue ? (
+          <span className="log-counter__value">+{counter.counterValue.toLocaleString('en-US')}</span>
+        ) : null}
+      </div>
+    </div>
+  )
+}
+
+function CounterAction({ line }: { line: ActionLine }) {
+  if (!line.cardId) {
+    return <li className="log-actions__sub">{line.text}</li>
+  }
+
+  return (
+    <li>
+      <CounterChip
+        counter={{
+          cardId: line.cardId,
+          cardTitle: line.cardTitle,
+          counterValue: line.counterValue,
+        }}
+      />
+    </li>
+  )
+}
+
+function CombatAction({ line }: { line: ActionLine }) {
+  const outcomeClass =
+    line.kind === 'ko' ? 'is-ko' : line.kind === 'damage' ? 'is-damage' : 'is-fail'
+
+  return (
+    <li className="log-actions__combat-block">
+      {line.counters?.map((counter, i) => (
+        <CounterChip key={`${counter.cardId}-${i}`} counter={counter} />
+      ))}
+      <div className="log-actions__combat">
+        <strong>{line.text}</strong>
+        {line.outcome && line.outcome !== 'fail' ? (
+          <>
+            {' → '}
+            <span className={`log-outcome ${outcomeClass}`}>{line.outcome}</span>
+          </>
+        ) : line.outcome === 'fail' ? (
+          <>
+            {' → '}
+            <span className="log-outcome is-fail">fail</span>
+          </>
+        ) : null}
+      </div>
+    </li>
+  )
+}
+
 function ActionList({ actions }: { actions: ActionLine[] }) {
   if (actions.length === 0) return null
   return (
     <ul className="log-actions">
       {actions.map((line, i) => {
+        if (line.kind === 'counter') {
+          return <CounterAction key={i} line={line} />
+        }
         if (line.kind === 'combat' || line.kind === 'ko' || line.kind === 'damage') {
-          const outcomeClass =
-            line.kind === 'ko' ? 'is-ko' : line.kind === 'damage' ? 'is-damage' : 'is-fail'
-          return (
-            <li key={i} className="log-actions__combat">
-              <strong>{line.text}</strong>
-              {line.outcome && line.outcome !== 'fail' ? (
-                <>
-                  {' → '}
-                  <span className={`log-outcome ${outcomeClass}`}>{line.outcome}</span>
-                </>
-              ) : line.outcome === 'fail' ? (
-                <>
-                  {' → '}
-                  <span className="log-outcome is-fail">fail</span>
-                </>
-              ) : null}
-            </li>
-          )
+          return <CombatAction key={i} line={line} />
         }
         if (line.kind === 'concede') {
           return (
@@ -105,12 +163,27 @@ function ActionList({ actions }: { actions: ActionLine[] }) {
   )
 }
 
+function HandStrip({ hand }: { hand: string[] }) {
+  if (hand.length === 0) return null
+  return (
+    <div className="log-hand">
+      <span className="log-hand__label">Hand ({hand.length})</span>
+      <div className="log-hand__strip">
+        {hand.map((id, i) => (
+          <LogCard key={`${id}-${i}`} card={{ id }} compact />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function TurnPanel({ side }: { side: TurnSide }) {
   return (
     <div className="log-panel">
       {side.don != null ? <span className="log-panel__don">{side.don} DON!!</span> : null}
       <PlayStrip side={side} />
       <ActionList actions={side.actions ?? []} />
+      {side.hand ? <HandStrip hand={side.hand} /> : null}
     </div>
   )
 }
@@ -171,7 +244,6 @@ export function TurnCurveBoard({ data }: { data: MatchupCurve }) {
         <span>
           <strong>→</strong> one card puts another onto the field
         </span>
-        <span>the number in the circle is the cost</span>
       </p>
     </div>
   )

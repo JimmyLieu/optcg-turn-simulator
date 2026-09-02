@@ -10,10 +10,21 @@ export type EditorCardSlot = {
 /** How 2+ cards combine in the preview (single-card ignores this). */
 export type EditorSideJoin = 'seq' | 'or' | 'and' | 'effect'
 
+export type CounterEntry = {
+  cardId: string
+  cardTitle?: string
+  counterValue?: number
+}
+
 export type EditorActionLine = {
   text: string
-  kind?: 'effect' | 'sub' | 'combat' | 'ko' | 'damage' | 'concede' | 'note'
+  kind?: 'effect' | 'sub' | 'combat' | 'ko' | 'damage' | 'concede' | 'note' | 'counter'
   outcome?: string
+  cardId?: string
+  cardTitle?: string
+  counterValue?: number
+  /** Counters played during this combat (defender discards). */
+  counters?: CounterEntry[]
 }
 
 export type EditorSide = {
@@ -23,6 +34,8 @@ export type EditorSide = {
   joins: EditorSideJoin[]
   /** DON!! available this turn (from a combat log). */
   don?: number
+  /** Card IDs in hand at end of turn (from log snapshots). */
+  hand?: string[]
   actions?: EditorActionLine[]
 }
 

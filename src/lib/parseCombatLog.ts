@@ -1,6 +1,7 @@
 import {
   emptySide,
   emptyTurn,
+  type CounterEntry,
   type EditorActionLine,
   type EditorMatchup,
   type EditorSide,
@@ -29,6 +30,9 @@ const HIT = /^(.+) \[([A-Z0-9]+-\d+)\] hit for (\d+) damage$/
 const DISCARD = /^Discard (.+) \[([A-Z0-9]+-\d+)\] for Counter(?: (\d+))?$/
 const DRAW_DON = /^Draw (\d+) Don$/
 const LIFE = /^Life: (\d+)$/
+const HAND = /^Hand(?: after Mulligan)?: \[(.*)\]$/i
+const ANON_HAND = /^\[\] Hand(?: after Mulligan)?: \[(.*)\]$/i
+const ANON_LIFE = /^\[\] Life: (\d+)$/
 const VERSION = /^Version is (.+)$/
 const RZ1_PLY = /^RZ1\|PLY\|(\d+)\|([^|]*)\|([A-Z0-9]+-\d+)$/
 
@@ -48,6 +52,8 @@ type TurnAcc = {
   secondDon?: number
   firstLife?: number
   secondLife?: number
+  firstHand?: string[]
+  secondHand?: string[]
 }
 
 type CombatPending = {
@@ -58,6 +64,7 @@ type CombatPending = {
   defenderId: string
   atkPow?: string
   defPow?: string
+  counters: CounterEntry[]
 }
 
 const SKIP_EFFECT = /^(Activate \d+ Don|Can't play Cost|Can't Activate Don|Set .+ to Active)/i
@@ -119,15 +126,71 @@ function colorWord(cardId: string): string {
   return row.card_color.replace(/\s*\/\s*/g, ' ')
 }
 
-function shortName(name: string, isLeader: boolean): string {
-  const cleaned = name.replace(/\s+-\s+[A-Z0-9].*$/, '').trim()
+function cleanCardName(raw: string): string {
+  return raw
+    .replace(/\s+-\s+[A-Z0-9]+-\d+\s*$/, '')
+    .replace(/\s*\(\d+\)\s*(\(Alternate Art\))?$/i, '')
+    .trim()
+}
+
+function shortCharacterName(name: string): string {
+  const cleaned = cleanCardName(name)
   const parts = cleaned.split(/\s+/).filter(Boolean)
-  let base = cleaned
-  if (parts.length > 2 && !cleaned.includes('&')) base = parts[parts.length - 1]
-  else if (parts.length === 2 && /^(Dracule|Roronoa|Kouzuki|Trafalgar|Jewelry|Monkey)/i.test(parts[0])) {
-    base = parts[1]
+
+  if (/\d$/.test(cleaned)) return cleaned
+  if (/^(Pirate|Gum-Gum|Instead|When|You|Off|On|If|I[''])/i.test(cleaned)) return cleaned
+  if (cleaned.includes('&')) return cleaned
+
+  if (
+    parts.length >= 2 &&
+    /^(Dracule|Roronoa|Kouzuki|Trafalgar|Jewelry|Monkey|Portgas|Tony|Nico|Jaguar|Miss|Mr\.)/i.test(
+      parts[0],
+    )
+  ) {
+    return parts[parts.length - 1]
   }
-  return isLeader ? `${base} (leader)` : base
+
+  return cleaned
+}
+
+function normalizeName(name: string): string {
+  return cleanCardName(name).replace(/\./g, ' ')
+}
+
+function cardLabel(cardId: string, rawName: string, leaderIds: Set<string>): string {
+  const row = cardId ? getCardBySetId(cardId) : null
+  const name = normalizeName(row ? row.card_name : rawName)
+  const isLeader = cardId ? leaderIds.has(cardId) : false
+  const type = row?.card_type?.toLowerCase()
+
+  if (isLeader) return `${shortCharacterName(name)} (leader)`
+  if (type === 'event' || type === 'stage') return cleanCardName(row?.card_name ?? rawName)
+
+  return shortCharacterName(name)
+}
+
+function cardLabelFromRaw(raw: string, leaderIds: Set<string>): string {
+  const idMatch = raw.match(CARD_ID)
+  const rawName = raw.replace(CARD_ID, '').replace(/[\[\]]/g, '').trim()
+  return cardLabel(idMatch?.[1] ?? '', rawName, leaderIds)
+}
+
+function combatLabels(
+  atkId: string,
+  atkName: string,
+  defId: string,
+  defName: string,
+  leaderIds: Set<string>,
+): [string, string] {
+  let atk = cardLabel(atkId, atkName, leaderIds)
+  let def = cardLabel(defId, defName, leaderIds)
+  if (atk === def) {
+    const aNum = atkId.match(/-(\d+)$/)?.[1]
+    const dNum = defId.match(/-(\d+)$/)?.[1]
+    if (aNum) atk = `${atk} (${aNum})`
+    if (dNum) def = `${def} (${dNum})`
+  }
+  return [atk, def]
 }
 
 function fmtPower(n: string): string {
@@ -136,18 +199,53 @@ function fmtPower(n: string): string {
   return num.toLocaleString('en-US')
 }
 
+function parseHandList(raw: string): string[] {
+  if (!raw.trim()) return []
+  return raw
+    .split(',')
+    .map((id) => id.trim())
+    .filter(Boolean)
+}
+
 function sideFromPlays(
   plays: PlaySlot[],
   actions: EditorActionLine[],
   don: number | undefined,
+  hand: string[] | undefined,
 ): EditorSide {
   const cards = plays.map((p) => ({ id: p.id, title: p.title }))
   const joins: EditorSideJoin[] = plays.slice(1).map((p) => p.via ?? 'and')
-  return { ...emptySide(), cards, joins, callout: '', actions, don }
+  return { ...emptySide(), cards, joins, callout: '', actions, don, hand }
 }
 
-function isLeaderId(id: string, leaders: Map<PlayerId, string>): boolean {
-  return [...leaders.values()].includes(id)
+function prettyEffect(body: string, leaderIds: Set<string>): string | null {
+  if (SKIP_EFFECT.test(body)) return null
+
+  if (/^Trash \d+ Remaining Cards$/i.test(body)) return 'trashes remaining cards'
+  if (/^Rest (\d+ )?Don/i.test(body)) {
+    const n = body.match(/^Rest (\d+) Don/)?.[1]
+    return n ? `rests ${n} DON!!` : 'rests DON!!'
+  }
+  if (/^Draw (\d+) Card/.test(body)) return `draws ${body.match(/^Draw (\d+)/)?.[1]}`
+  if (/^Trash /.test(body)) {
+    const rest = body.slice(6)
+    if (!CARD_ID.test(rest)) return 'trashes cards'
+    return `trashes ${cardLabelFromRaw(rest, leaderIds)}`
+  }
+  if (/^Return /.test(body)) {
+    return `returns ${cardLabelFromRaw(body.replace(/^Return /, '').replace(/ to Hand$/, ''), leaderIds)} to hand`
+  }
+  if (/Reveal and Draw/.test(body)) {
+    const inner = body.replace(/^.*?Reveal and Draw\s*/, '')
+    return `looks at 5, adds ${cardLabelFromRaw(inner, leaderIds)}`
+  }
+  if (/^Grant /.test(body)) return body.replace(/^Grant /, 'grants ').replace(/\s*\[[A-Z0-9]+-\d+\]/g, '')
+  if (/^Destroy /.test(body)) return `destroys ${cardLabelFromRaw(body.slice(8), leaderIds)}`
+  if (/^Buff /.test(body)) return null
+  if (/Activate Counter/i.test(body)) return 'counters'
+  if (/will not Activate/i.test(body)) return body.replace(/\s*\[[A-Z0-9]+-\d+\]/g, '')
+  if (/can't be rested/i.test(body)) return null
+  return body.replace(/\s*\[[A-Z0-9]+-\d+\]/g, '').trim() || null
 }
 
 function pushAction(
@@ -164,44 +262,25 @@ function flushCombat(
   pending: CombatPending | null,
   outcome: string,
   kind: EditorActionLine['kind'],
+  leaderIds: Set<string>,
 ): CombatPending | null {
   if (!pending) return null
-  const atk = shortName(pending.attacker, false)
-  const def = shortName(pending.defender, false)
+  const [atk, def] = combatLabels(
+    pending.attackerId,
+    pending.attacker,
+    pending.defenderId,
+    pending.defender,
+    leaderIds,
+  )
   const atkP = pending.atkPow ? ` ${fmtPower(pending.atkPow)}` : ''
   const defP = pending.defPow ? ` ${fmtPower(pending.defPow)}` : ''
   pushAction(acc, pending.side, {
     kind,
     text: `${atk}${atkP} vs ${def}${defP}`,
     outcome,
+    counters: pending.counters.length > 0 ? pending.counters : undefined,
   })
   return null
-}
-
-function prettyEffect(body: string, leaders: Map<PlayerId, string>): string | null {
-  if (SKIP_EFFECT.test(body)) return null
-  const idOf = (raw: string) => {
-    const m = raw.match(CARD_ID)
-    return m ? m[1] : ''
-  }
-  const nameOf = (raw: string) =>
-    shortName(raw.replace(CARD_ID, '').replace(/[\[\]]/g, '').trim(), isLeaderId(idOf(raw), leaders))
-
-  if (/^Rest /.test(body)) return `rests ${nameOf(body.slice(5))}`
-  if (/^Draw (\d+) Card/.test(body)) return `draws ${body.match(/^Draw (\d+)/)?.[1]}`
-  if (/^Trash /.test(body)) return `trashes ${nameOf(body.slice(6))}`
-  if (/^Return /.test(body)) return `returns ${nameOf(body.replace(/^Return /, '').replace(/ to Hand$/, ''))} to hand`
-  if (/Reveal and Draw/.test(body)) {
-    const inner = body.replace(/^.*?Reveal and Draw\s*/, '')
-    return `looks at 5, adds ${nameOf(inner)}`
-  }
-  if (/^Grant /.test(body)) return body.replace(/^Grant /, 'grants ').replace(/\s*\[[A-Z0-9]+-\d+\]/g, '')
-  if (/^Destroy /.test(body)) return `destroys ${nameOf(body.slice(8))}`
-  if (/^Buff /.test(body)) return null
-  if (/Activate Counter/i.test(body)) return 'Counter'
-  if (/will not Activate/i.test(body)) return body.replace(/\s*\[[A-Z0-9]+-\d+\]/g, '')
-  if (/can't be rested/i.test(body)) return null
-  return body.replace(/\s*\[[A-Z0-9]+-\d+\]/g, '').trim() || null
 }
 
 /**
@@ -223,10 +302,13 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
   let version = ''
   let roomId = ''
 
+  let sawLocalPlayers = false
+
   for (const ln of lines) {
     const ply = ln.match(RZ1_PLY)
     if (ply?.[3]) {
-      const who = localPlayerId(Number(ply[1]))
+      const slotName = ply[2].replace(ZWSP, '').trim()
+      const who = slotName ? slotName : localPlayerId(Number(ply[1]))
       if (!leaders.has(who)) {
         leaders.set(who, ply[3])
         leaderNames.set(who, leaderLabel(ply[3], ply[3]))
@@ -250,6 +332,8 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
     if (!parsed) continue
     const { who, body } = parsed
 
+    if (who === YOU_ID || who === OPPONENT_ID) sawLocalPlayers = true
+
     if (!firstDonPlayer && DRAW_DON.test(body)) firstDonPlayer = who
 
     if (body.startsWith('Leader is ')) {
@@ -268,7 +352,7 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
     throw new CombatLogParseError('No leaders found in this combat log.')
   }
 
-  const isLocalMatch = leaders.has(YOU_ID) || leaders.has(OPPONENT_ID)
+  const isLocalMatch = sawLocalPlayers
 
   let first: PlayerId
   let second: PlayerId
@@ -302,6 +386,7 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
   const life: Record<string, number> = { [first]: 5, [second]: 5 }
   const ownerOfLeader = new Map<string, PlayerId>()
   for (const [pid, lid] of leaders) ownerOfLeader.set(lid, pid)
+  const leaderIds = new Set(leaders.values())
 
   const emptyAcc = (): TurnAcc => ({
     first: [],
@@ -320,8 +405,52 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
   let pending: CombatPending | null = null
   let lastEffectSource: { side: 'first' | 'second'; id: string } | null = null
   let concededBy: PlayerId | null = null
+  /** Who leads the next `[] Hand` / `[] Life` pair (set on End Turn). */
+  let snapshotPairLead: 'first' | 'second' | null = null
+  /** 0 = first block in pair, 1 = second block. */
+  let snapshotBlockIndex = 0
+  /** Player for the in-progress `[] Hand` … `[] Life` block. */
+  let activeSnapshotPlayer: 'first' | 'second' | null = null
 
   const sideOf = (who: PlayerId): 'first' | 'second' => (who === first ? 'first' : 'second')
+
+  const otherSide = (side: 'first' | 'second'): 'first' | 'second' =>
+    side === 'first' ? 'second' : 'first'
+
+  const snapshotLead = (): 'first' | 'second' => snapshotPairLead ?? sideOf(current)
+
+  const snapshotBlockSide = (): 'first' | 'second' => {
+    const lead = snapshotLead()
+    return snapshotBlockIndex === 0 ? lead : otherSide(lead)
+  }
+
+  const finishSnapshotBlock = () => {
+    snapshotBlockIndex += 1
+    if (snapshotBlockIndex >= 2) {
+      snapshotBlockIndex = 0
+      snapshotPairLead = null
+    }
+    activeSnapshotPlayer = null
+  }
+
+  const syncTurnLife = () => {
+    const acc = turns[turn]
+    if (!acc) return
+    acc.firstLife = life[first]
+    acc.secondLife = life[second]
+  }
+
+  const applyLife = (side: 'first' | 'second', value: number) => {
+    const who = side === 'first' ? first : second
+    life[who] = value
+    syncTurnLife()
+  }
+
+  const setHand = (side: 'first' | 'second', ids: string[]) => {
+    const acc = turns[turn]
+    if (side === 'first') acc.firstHand = ids
+    else acc.secondHand = ids
+  }
 
   const playsOf = (acc: TurnAcc, side: 'first' | 'second') => (side === 'first' ? acc.first : acc.second)
 
@@ -330,27 +459,44 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
     const body = parsed?.body ?? ln
     const who = parsed?.who ?? null
 
+    const anonHand = ln.match(ANON_HAND)
+    if (anonHand) {
+      activeSnapshotPlayer = snapshotBlockSide()
+      setHand(activeSnapshotPlayer, parseHandList(anonHand[1]))
+      continue
+    }
+
+    const anonLife = ln.match(ANON_LIFE)
+    if (anonLife) {
+      const side = activeSnapshotPlayer ?? snapshotBlockSide()
+      applyLife(side, Number(anonLife[1]))
+      finishSnapshotBlock()
+      continue
+    }
+
     if (!started) {
       if (who && DRAW_DON.test(body)) {
         started = true
         current = who
       } else {
         const lifeM = body.match(LIFE)
-        if (who && lifeM) life[who] = Number(lifeM[1])
+        if (who && lifeM) applyLife(sideOf(who), Number(lifeM[1]))
         continue
       }
     }
 
     if (body === 'End Turn') {
-      pending = flushCombat(turns[turn], pending, 'fail', 'combat')
+      pending = flushCombat(turns[turn], pending, 'fail', 'combat', leaderIds)
       lastEffectSource = null
+      if (who) {
+        snapshotPairLead = sideOf(who)
+        snapshotBlockIndex = 0
+      }
       current = current === first ? second : first
       if (current === first) {
         turn += 1
-        const next = emptyAcc()
-        next.firstLife = life[first]
-        next.secondLife = life[second]
-        turns.push(next)
+        turns.push(emptyAcc())
+        syncTurnLife()
       }
       continue
     }
@@ -368,7 +514,13 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
 
     const lifeM = body.match(LIFE)
     if (who && lifeM) {
-      life[who] = Number(lifeM[1])
+      applyLife(sideOf(who), Number(lifeM[1]))
+      continue
+    }
+
+    const handM = body.match(HAND)
+    if (handM && who) {
+      setHand(sideOf(who), parseHandList(handM[1]))
       continue
     }
 
@@ -396,42 +548,54 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
 
     const hit = body.match(HIT)
     if (hit) {
-      const owner = ownerOfLeader.get(hit[2])
-      if (owner) life[owner] = Math.max(0, (life[owner] ?? 5) - Number(hit[3]))
-      pending = flushCombat(acc, pending, `+${hit[3]} damage`, 'damage')
+      pending = flushCombat(acc, pending, `+${hit[3]} damage`, 'damage', leaderIds)
       continue
     }
 
     if (body === 'Attack Fails') {
-      pending = flushCombat(acc, pending, 'fail', 'combat')
+      pending = flushCombat(acc, pending, 'fail', 'combat', leaderIds)
       continue
     }
 
     const destroyed = body.match(DESTROYED)
     if (destroyed) {
-      pending = flushCombat(acc, pending, 'K.O.', 'ko')
+      pending = flushCombat(acc, pending, 'K.O.', 'ko', leaderIds)
       continue
     }
 
     const attack = body.match(ATTACK)
     if (attack && who) {
-      pending = flushCombat(acc, pending, 'fail', 'combat')
+      pending = flushCombat(acc, pending, 'fail', 'combat', leaderIds)
       pending = {
         side: activeSide,
         attacker: attack[1],
         attackerId: attack[2],
         defender: attack[3],
         defenderId: attack[4],
+        counters: [],
       }
       continue
     }
 
     const discard = body.match(DISCARD)
-    if (discard) {
-      pushAction(acc, activeSide, {
-        kind: 'sub',
-        text: `discards ${shortName(discard[1], false)} for Counter`,
-      })
+    if (discard && who) {
+      const counterValue = discard[3] ? Number(discard[3]) : undefined
+      const entry: CounterEntry = {
+        cardId: discard[2],
+        cardTitle: discard[1],
+        counterValue: Number.isFinite(counterValue) ? counterValue : undefined,
+      }
+      if (pending) {
+        pending.counters.push(entry)
+      } else {
+        pushAction(acc, sideOf(who), {
+          kind: 'counter',
+          text: counterValue
+            ? `Counter +${counterValue.toLocaleString('en-US')}`
+            : 'Counter',
+          ...entry,
+        })
+      }
       continue
     }
 
@@ -467,7 +631,7 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
       if (trash) {
         pushAction(acc, activeSide, {
           kind: 'note',
-          text: `trashes ${shortName(trash[1], false)}`,
+          text: `trashes ${cardLabel(trash[2], trash[1], leaderIds)}`,
         })
         continue
       }
@@ -477,7 +641,7 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
     if (effect) {
       const title = effect[1]
       const cardId = effect[2]
-      const pretty = prettyEffect(effect[3], leaders)
+      const pretty = prettyEffect(effect[3], leaderIds)
       if (!pretty) continue
 
       if (who === current && cardId !== leaders.get(who) && !inPlay[who]?.has(cardId)) {
@@ -489,7 +653,7 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
 
       const kind: EditorActionLine['kind'] =
         lastEffectSource?.side === activeSide && lastEffectSource.id === cardId ? 'sub' : 'effect'
-      const label = shortName(title, cardId === leaders.get(who))
+      const label = cardLabel(cardId, title, leaderIds)
       pushAction(acc, activeSide, {
         kind,
         text: kind === 'sub' ? pretty : `${label} ${pretty}`,
@@ -519,8 +683,8 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
   const firstRow = getCardBySetId(firstLeader)
   const secondRow = getCardBySetId(secondLeader)
 
-  const leftTitle = [colorWord(firstLeader), shortName(firstLeaderName, false)].filter(Boolean).join(' ')
-  const rightTitle = [colorWord(secondLeader), shortName(secondLeaderName, false)].filter(Boolean).join(' ')
+  const leftTitle = [colorWord(firstLeader), shortCharacterName(normalizeName(firstLeaderName))].filter(Boolean).join(' ')
+  const rightTitle = [colorWord(secondLeader), shortCharacterName(normalizeName(secondLeaderName))].filter(Boolean).join(' ')
   const matchupTitle = `${leftTitle} versus ${rightTitle}`
 
   const summaryParts = [
@@ -550,8 +714,8 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
       turns.length === 0
         ? [emptyTurn()]
         : turns.map((t) => ({
-            first: sideFromPlays(t.first, t.firstActions, t.firstDon),
-            second: sideFromPlays(t.second, t.secondActions, t.secondDon),
+            first: sideFromPlays(t.first, t.firstActions, t.firstDon, t.firstHand),
+            second: sideFromPlays(t.second, t.secondActions, t.secondDon, t.secondHand),
             firstLife: t.firstLife,
             secondLife: t.secondLife,
           })),

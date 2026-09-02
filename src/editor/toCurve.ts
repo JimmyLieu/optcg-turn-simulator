@@ -64,6 +64,7 @@ function sideToTurn(side: EditorSide) {
     playLine: slotsToPlayLine(side.cards, side.joins),
     callout: side.callout.trim() || undefined,
     don: side.don,
+    hand: side.hand,
     actions: side.actions,
   }
 }
