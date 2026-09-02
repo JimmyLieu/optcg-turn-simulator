@@ -12,10 +12,13 @@ import { getCardBySetId } from './optcgApi'
 const ZWSP = /\u200b/g
 const MARKUP = /<mark><link="([^"]+)">[^<]*<\/link><\/mark>/g
 const BOLD = /<\/?b>/g
-const PLAYER = /^\[([^#\]]+)#(\d+)\] (.*)$/
+const CARD_REF = /\["?([A-Z0-9]+-\d+)"?>(?:[A-Z0-9]+-\d+)?\]?/g
+const PLAYER_ONLINE = /^\[([^#\]]+)#(\d+)\] (.*)$/
+const PLAYER_LOCAL = /^\[(You|Opponent)\] (.*)$/
 const CONNECT = /^(.+#\d+) Has Connected$/
 const DEPLOY = /^Deploy (.+) \[([A-Z0-9]+-\d+)\]$/
-const EFFECT_DEPLOY = /^.+ \[([A-Z0-9]+-\d+)\]: Deploy (.+) \[([A-Z0-9]+-\d+)\]$/
+const EFFECT_DEPLOY =
+  /^.+ \[([A-Z0-9]+-\d+)\]: Deploy(?:ed)? (.+) \[([A-Z0-9]+-\d+)\](?: from Trash)?$/
 const EFFECT = /^(.+) \[([A-Z0-9]+-\d+)\]: (.*)$/
 const TRASH = /^Trash (.+) \[([A-Z0-9]+-\d+)\]$/
 const CARD_ID = /\[([A-Z0-9]+-\d+)\]/
@@ -26,6 +29,11 @@ const HIT = /^(.+) \[([A-Z0-9]+-\d+)\] hit for (\d+) damage$/
 const DISCARD = /^Discard (.+) \[([A-Z0-9]+-\d+)\] for Counter(?: (\d+))?$/
 const DRAW_DON = /^Draw (\d+) Don$/
 const LIFE = /^Life: (\d+)$/
+const VERSION = /^Version is (.+)$/
+const RZ1_PLY = /^RZ1\|PLY\|(\d+)\|([^|]*)\|([A-Z0-9]+-\d+)$/
+
+const YOU_ID = 'You#1'
+const OPPONENT_ID = 'Opponent#2'
 
 type PlayerId = string
 
@@ -55,7 +63,28 @@ type CombatPending = {
 const SKIP_EFFECT = /^(Activate \d+ Don|Can't play Cost|Can't Activate Don|Set .+ to Active)/i
 
 function stripLog(raw: string): string {
-  return raw.replace(ZWSP, '').replace(MARKUP, '$1').replace(BOLD, '')
+  return raw
+    .replace(ZWSP, '')
+    .replace(MARKUP, '$1')
+    .replace(BOLD, '')
+    .replace(CARD_REF, '[$1]')
+}
+
+function parsePlayerLine(ln: string): { who: PlayerId; body: string } | null {
+  const online = ln.match(PLAYER_ONLINE)
+  if (online) return { who: playerId(online[1], online[2]), body: online[3] }
+  const local = ln.match(PLAYER_LOCAL)
+  if (local) {
+    return {
+      who: local[1] === 'You' ? YOU_ID : OPPONENT_ID,
+      body: local[2],
+    }
+  }
+  return null
+}
+
+function localPlayerId(slot: number): PlayerId {
+  return slot === 1 ? YOU_ID : OPPONENT_ID
 }
 
 export function looksLikeCombatLog(raw: string): boolean {
@@ -190,13 +219,25 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
   const leaderNames = new Map<PlayerId, string>()
   let choseSecond: PlayerId | null = null
   let choseFirst: PlayerId | null = null
+  let firstDonPlayer: PlayerId | null = null
   let version = ''
   let roomId = ''
+
+  for (const ln of lines) {
+    const ply = ln.match(RZ1_PLY)
+    if (ply?.[3]) {
+      const who = localPlayerId(Number(ply[1]))
+      if (!leaders.has(who)) {
+        leaders.set(who, ply[3])
+        leaderNames.set(who, leaderLabel(ply[3], ply[3]))
+      }
+    }
+  }
 
   for (const ln of human) {
     const room = ln.match(/Room ID:([A-Z0-9]+)/i)
     if (room) roomId = room[1]
-    const ver = ln.match(/^Version is (.+)$/)
+    const ver = ln.match(VERSION)
     if (ver) version = ver[1].trim()
 
     const connected = ln.match(CONNECT)
@@ -204,10 +245,13 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
       connects.push(connected[1])
       continue
     }
-    const m = ln.match(PLAYER)
-    if (!m) continue
-    const who = playerId(m[1], m[2])
-    const body = m[3]
+
+    const parsed = parsePlayerLine(ln)
+    if (!parsed) continue
+    const { who, body } = parsed
+
+    if (!firstDonPlayer && DRAW_DON.test(body)) firstDonPlayer = who
+
     if (body.startsWith('Leader is ')) {
       const idMatch = body.match(CARD_ID)
       if (idMatch) {
@@ -224,16 +268,31 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
     throw new CombatLogParseError('No leaders found in this combat log.')
   }
 
-  const first =
-    choseFirst ??
-    connects.find((id) => id !== choseSecond) ??
-    connects[0] ??
-    'Player 1#0'
-  const second =
-    choseSecond ??
-    connects.find((id) => id !== first) ??
-    connects[1] ??
-    'Player 2#0'
+  const isLocalMatch = leaders.has(YOU_ID) || leaders.has(OPPONENT_ID)
+
+  let first: PlayerId
+  let second: PlayerId
+
+  if (isLocalMatch) {
+    if (firstDonPlayer === OPPONENT_ID) {
+      first = OPPONENT_ID
+      second = YOU_ID
+    } else {
+      first = YOU_ID
+      second = OPPONENT_ID
+    }
+  } else {
+    first =
+      choseFirst ??
+      connects.find((id) => id !== choseSecond) ??
+      connects[0] ??
+      'Player 1#0'
+    second =
+      choseSecond ??
+      connects.find((id) => id !== first) ??
+      connects[1] ??
+      'Player 2#0'
+  }
 
   const inPlay: Record<string, Set<string>> = {
     [first]: new Set(leaders.get(first) ? [leaders.get(first)!] : []),
@@ -267,9 +326,9 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
   const playsOf = (acc: TurnAcc, side: 'first' | 'second') => (side === 'first' ? acc.first : acc.second)
 
   for (const ln of human) {
-    const m = ln.match(PLAYER)
-    const body = m ? m[3] : ln
-    const who = m ? playerId(m[1], m[2]) : null
+    const parsed = parsePlayerLine(ln)
+    const body = parsed?.body ?? ln
+    const who = parsed?.who ?? null
 
     if (!started) {
       if (who && DRAW_DON.test(body)) {
