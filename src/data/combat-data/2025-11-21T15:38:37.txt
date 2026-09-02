@@ -1,0 +1,285 @@
+Waiting for a Connection with Room ID:W7MBPPD
+jmi​#8380 Has Connected
+Version is 1.34b
+[jmi​#8380] Leader is Imu ["OP13-079">OP13-079]
+Mence​#1383 Has Connected
+Version is 1.34b
+[Mence​#1383] Leader is Imu ["OP13-079">OP13-079]
+[Mence​#1383] Chose to go Second
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Deploy The Holy Land Mary Geoise ["OP05-097">OP05-097]
+[Mence​#1383] Imu ["OP13-079">OP13-079]: Deploy The Holy Land Mary Geoise ["OP05-097">OP05-097]
+[Mence​#1383] Mulligan
+[jmi​#8380] Draw 1 Don
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Trash Shirahoshi ["OP05-082">OP05-082]
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Draw 1 Card
+[jmi​#8380] <b>Reveal and Draw St. Jaygarcia Saturn ["OP13-083">OP13-083]</b>
+[jmi​#8380] The Five Elders... Are At Your Service ["OP13-096">OP13-096]: Trash 2 Remaining Cards
+[jmi​#8380] End Turn
+[Mence​#1383] Draw 1 Card
+[Mence​#1383] Draw 2 Don
+[Mence​#1383] Deploy St. Shalria ["OP13-086">OP13-086]
+[Mence​#1383] <b>Reveal and Draw St. Shepherd Ju Peter ["OP13-084">OP13-084]</b>
+[Mence​#1383] St. Shalria ["OP13-086">OP13-086]: Trash 2 Remaining Cards
+[Mence​#1383] St. Shalria ["OP13-086">OP13-086]: Trash The Empty Throne ["OP13-099">OP13-099]
+[Mence​#1383] Imu ["OP13-079">OP13-079]: Trash St. Shalria ["OP13-086">OP13-086]
+[Mence​#1383] Imu ["OP13-079">OP13-079]: Draw 1 Card
+[Mence​#1383] <b>Reveal and Draw St. Jaygarcia Saturn ["OP13-083">OP13-083]</b>
+[Mence​#1383] The Five Elders... Are At Your Service ["OP13-096">OP13-096]: Trash 2 Remaining Cards
+[Mence​#1383] End Turn
+[jmi​#8380] Draw 1 Card
+[jmi​#8380] Draw 2 Don
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Trash St. Shalria ["OP13-086">OP13-086]
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Draw 1 Card
+[jmi​#8380] Deploy St. Jaygarcia Saturn ["OP13-083">OP13-083]
+[jmi​#8380] <b>Reveal and Draw St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080]</b>
+[jmi​#8380] Placing Cards on Bottom of Deck
+[jmi​#8380] End Turn
+[Mence​#1383] Draw 1 Card
+[Mence​#1383] Draw 2 Don
+[Mence​#1383] Imu ["OP13-079">OP13-079] attacking Imu ["OP13-079">OP13-079]
+Imu ["OP13-079">OP13-079][5000] vs Imu ["OP13-079">OP13-079][5000]
+Imu ["OP13-079">OP13-079] hit for 1 damage
+[Mence​#1383] Deploy St. Jaygarcia Saturn ["OP13-083">OP13-083]
+[Mence​#1383] <b>Reveal and Draw St. Marcus Mars ["OP13-091">OP13-091]</b>
+[Mence​#1383] Placing Cards on Bottom of Deck
+[Mence​#1383] Imu ["OP13-079">OP13-079]: Trash St. Marcus Mars ["OP13-091">OP13-091]
+[Mence​#1383] Imu ["OP13-079">OP13-079]: Draw 1 Card
+[Mence​#1383] End Turn
+[jmi​#8380] Draw 1 Card
+[jmi​#8380] Draw 2 Don
+[jmi​#8380] St. Jaygarcia Saturn ["OP13-083">OP13-083] attacking Imu ["OP13-079">OP13-079]
+St. Jaygarcia Saturn ["OP13-083">OP13-083][5000] vs Imu ["OP13-079">OP13-079][5000]
+Imu ["OP13-079">OP13-079] hit for 1 damage
+[jmi​#8380] Deploy St. Shalria ["OP13-086">OP13-086]
+[jmi​#8380] <b>Reveal and Draw The Five Elders... Are At Your Service ["OP13-096">OP13-096]</b>
+[jmi​#8380] St. Shalria ["OP13-086">OP13-086]: Trash 2 Remaining Cards
+[jmi​#8380] St. Shalria ["OP13-086">OP13-086]: Trash The Five Elders... Are At Your Service ["OP13-096">OP13-096]
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Trash St. Shalria ["OP13-086">OP13-086]
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Draw 1 Card
+[jmi​#8380] Imu ["OP13-079">OP13-079] attacking Imu ["OP13-079">OP13-079]
+Imu ["OP13-079">OP13-079][5000] vs Imu ["OP13-079">OP13-079][5000]
+Imu ["OP13-079">OP13-079] hit for 1 damage
+[jmi​#8380] Deploy St. Jaygarcia Saturn ["OP13-083">OP13-083]
+[jmi​#8380] <b>Reveal and Draw ...Never Existed... ["OP13-098">OP13-098]</b>
+[jmi​#8380] Placing Cards on Bottom of Deck
+[jmi​#8380] End Turn
+[Mence​#1383] Draw 1 Card
+[Mence​#1383] Draw 2 Don
+[Mence​#1383] St. Jaygarcia Saturn ["OP13-083">OP13-083] attacking St. Jaygarcia Saturn ["OP13-083">OP13-083]
+[jmi​#8380] Discard St. Shalria ["OP13-086">OP13-086] for Counter 1000
+St. Jaygarcia Saturn ["OP13-083">OP13-083][5000] vs St. Jaygarcia Saturn ["OP13-083">OP13-083][6000]
+Attack Fails
+[Mence​#1383] Imu ["OP13-079">OP13-079] attacking St. Jaygarcia Saturn ["OP13-083">OP13-083]
+[jmi​#8380] Discard St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080] for Counter 1000
+Imu ["OP13-079">OP13-079][5000] vs St. Jaygarcia Saturn ["OP13-083">OP13-083][6000]
+Attack Fails
+[Mence​#1383] Deploy St. Jaygarcia Saturn ["OP13-083">OP13-083]
+[Mence​#1383] <b>Reveal and Draw St. Topman Warcury ["OP13-089">OP13-089]</b>
+[Mence​#1383] Placing Cards on Bottom of Deck
+[Mence​#1383] Deploy St. Topman Warcury ["OP13-089">OP13-089]
+[Mence​#1383] Imu ["OP13-079">OP13-079]: Trash St. Marcus Mars ["OP13-091">OP13-091]
+[Mence​#1383] Imu ["OP13-079">OP13-079]: Draw 1 Card
+[Mence​#1383] End Turn
+[jmi​#8380] Draw 1 Card
+[jmi​#8380] Draw 2 Don
+[jmi​#8380] St. Jaygarcia Saturn ["OP13-083">OP13-083] attacking Imu ["OP13-079">OP13-079]
+[Mence​#1383] Discard St. Shalria ["OP13-086">OP13-086] for Counter 1000
+St. Jaygarcia Saturn ["OP13-083">OP13-083][5000] vs Imu ["OP13-079">OP13-079][6000]
+Attack Fails
+[jmi​#8380] Deploy St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080]
+[jmi​#8380] St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080] attacking Imu ["OP13-079">OP13-079]
+[jmi​#8380] St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080]: Buff St. Jaygarcia Saturn ["OP13-083">OP13-083] -2000
+[Mence​#1383] Discard St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080] for Counter 1000
+St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080][5000] vs Imu ["OP13-079">OP13-079][6000]
+Attack Fails
+[jmi​#8380] St. Jaygarcia Saturn ["OP13-083">OP13-083] attacking St. Jaygarcia Saturn ["OP13-083">OP13-083]
+[Mence​#1383] Discard St. Mjosgard ["OP13-092">OP13-092] for Counter 2000
+[Mence​#1383] Discard St. Topman Warcury ["OP13-089">OP13-089] for Counter 1000
+St. Jaygarcia Saturn ["OP13-083">OP13-083][5000] vs St. Jaygarcia Saturn ["OP13-083">OP13-083][6000]
+Attack Fails
+[jmi​#8380] Imu ["OP13-079">OP13-079] attacking St. Jaygarcia Saturn ["OP13-083">OP13-083]
+[Mence​#1383] St. Topman Warcury ["OP13-089">OP13-089] Blocks
+[Mence​#1383] Discard St. Mjosgard ["OP13-092">OP13-092] for Counter 2000
+Imu ["OP13-079">OP13-079][5000] vs St. Topman Warcury ["OP13-089">OP13-089][7000]
+Attack Fails
+[jmi​#8380] End Turn
+[Mence​#1383] Draw 1 Card
+[Mence​#1383] Draw 2 Don
+[Mence​#1383] Deploy St. Shepherd Ju Peter ["OP13-084">OP13-084]
+[Mence​#1383] Deploy Shirahoshi ["OP05-082">OP05-082]
+[Mence​#1383] Shirahoshi ["OP05-082">OP05-082]: Rest Shirahoshi ["OP05-082">OP05-082]
+[Mence​#1383] Shirahoshi ["OP05-082">OP05-082]: Sent St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080] to Deck Bottom from Trash
+[Mence​#1383] Shirahoshi ["OP05-082">OP05-082]: Sent St. Mjosgard ["OP13-092">OP13-092] to Deck Bottom from Trash
+[Mence​#1383] Forcing opponent to resolve Card Action!
+[jmi​#8380] Shirahoshi ["OP05-082">OP05-082]: Trash St. Mjosgard ["OP13-092">OP13-092]
+[Mence​#1383] Imu ["OP13-079">OP13-079]: Trash ...Never Existed... ["OP13-098">OP13-098]
+[Mence​#1383] Imu ["OP13-079">OP13-079]: Draw 1 Card
+[Mence​#1383] St. Jaygarcia Saturn ["OP13-083">OP13-083] attacking St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080]
+[jmi​#8380] ...Never Existed... ["OP13-098">OP13-098]: Activate Counter
+[jmi​#8380] ...Never Existed... ["OP13-098">OP13-098]: Buff St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080] 4000 for the Combat
+St. Jaygarcia Saturn ["OP13-083">OP13-083][7000] vs St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080][9000]
+Attack Fails
+[Mence​#1383] St. Jaygarcia Saturn ["OP13-083">OP13-083] attacking St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080]
+[jmi​#8380] ...Never Existed... ["OP13-098">OP13-098]: Activate Counter
+[jmi​#8380] ...Never Existed... ["OP13-098">OP13-098]: Buff St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080] 4000 for the Combat
+St. Jaygarcia Saturn ["OP13-083">OP13-083][7000] vs St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080][9000]
+Attack Fails
+[Mence​#1383] Imu ["OP13-079">OP13-079] attacking St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080]
+[jmi​#8380] Discard Shirahoshi ["OP05-082">OP05-082] for Counter 2000
+Imu ["OP13-079">OP13-079][5000] vs St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080][7000]
+Attack Fails
+[Mence​#1383] St. Topman Warcury ["OP13-089">OP13-089] attacking St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080]
+St. Topman Warcury ["OP13-089">OP13-089][7000] vs St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080][5000]
+[jmi​#8380] St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080] Destroyed
+[Mence​#1383] End Turn
+[jmi​#8380] Draw 1 Card
+[jmi​#8380] Draw 2 Don
+[jmi​#8380] St. Jaygarcia Saturn ["OP13-083">OP13-083] attacking Imu ["OP13-079">OP13-079]
+[Mence​#1383] Discard St. Shepherd Ju Peter ["OP13-084">OP13-084] for Counter 2000
+St. Jaygarcia Saturn ["OP13-083">OP13-083][5000] vs Imu ["OP13-079">OP13-079][7000]
+Attack Fails
+[jmi​#8380] St. Jaygarcia Saturn ["OP13-083">OP13-083] attacking Imu ["OP13-079">OP13-079]
+[Mence​#1383] ...Never Existed... ["OP13-098">OP13-098]: Activate Counter
+[Mence​#1383] ...Never Existed... ["OP13-098">OP13-098]: Buff Imu ["OP13-079">OP13-079] 4000 for the Combat
+St. Jaygarcia Saturn ["OP13-083">OP13-083][5000] vs Imu ["OP13-079">OP13-079][9000]
+Attack Fails
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Trash St. Jaygarcia Saturn ["OP13-083">OP13-083]
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Draw 1 Card
+[jmi​#8380] Imu ["OP13-079">OP13-079] attacking Imu ["OP13-079">OP13-079]
+Imu ["OP13-079">OP13-079][5000] vs Imu ["OP13-079">OP13-079][5000]
+Imu ["OP13-079">OP13-079] hit for 1 damage
+[Mence​#1383] The Five Elders... Are At Your Service ["OP13-096">OP13-096]: Activate Trigger
+[Mence​#1383] <b>Reveal and Draw Five Elders ["OP13-082">OP13-082]</b>
+[Mence​#1383] The Five Elders... Are At Your Service ["OP13-096">OP13-096]: Trash 2 Remaining Cards
+[jmi​#8380] Deploy St. Topman Warcury ["OP13-089">OP13-089]
+[jmi​#8380] End Turn
+[Mence​#1383] Draw 1 Card
+[Mence​#1383] Draw 2 Don
+[Mence​#1383] St. Jaygarcia Saturn ["OP13-083">OP13-083] attacking St. Jaygarcia Saturn ["OP13-083">OP13-083]
+St. Jaygarcia Saturn ["OP13-083">OP13-083][7000] vs St. Jaygarcia Saturn ["OP13-083">OP13-083][5000]
+[jmi​#8380] St. Jaygarcia Saturn ["OP13-083">OP13-083] Destroyed
+[Mence​#1383] St. Jaygarcia Saturn ["OP13-083">OP13-083] attacking Imu ["OP13-079">OP13-079]
+St. Jaygarcia Saturn ["OP13-083">OP13-083][7000] vs Imu ["OP13-079">OP13-079][5000]
+Imu ["OP13-079">OP13-079] hit for 1 damage
+[Mence​#1383] St. Topman Warcury ["OP13-089">OP13-089] attacking Imu ["OP13-079">OP13-079]
+St. Topman Warcury ["OP13-089">OP13-089][7000] vs Imu ["OP13-079">OP13-079][5000]
+Imu ["OP13-079">OP13-079] hit for 1 damage
+[Mence​#1383] St. Shepherd Ju Peter ["OP13-084">OP13-084] attacking Imu ["OP13-079">OP13-079]
+[jmi​#8380] Discard St. Shepherd Ju Peter ["OP13-084">OP13-084] for Counter 2000
+[jmi​#8380] Discard St. Mjosgard ["OP13-092">OP13-092] for Counter 2000
+St. Shepherd Ju Peter ["OP13-084">OP13-084][7000] vs Imu ["OP13-079">OP13-079][9000]
+Attack Fails
+[Mence​#1383] Imu ["OP13-079">OP13-079] attacking Imu ["OP13-079">OP13-079]
+[jmi​#8380] Discard St. Shepherd Ju Peter ["OP13-084">OP13-084] for Counter 2000
+Imu ["OP13-079">OP13-079][5000] vs Imu ["OP13-079">OP13-079][7000]
+Attack Fails
+[Mence​#1383] Imu ["OP13-079">OP13-079]: Trash St. Jaygarcia Saturn ["OP13-083">OP13-083]
+[Mence​#1383] Imu ["OP13-079">OP13-079]: Draw 1 Card
+[Mence​#1383] Shirahoshi ["OP05-082">OP05-082]: Rest Shirahoshi ["OP05-082">OP05-082]
+[Mence​#1383] Shirahoshi ["OP05-082">OP05-082]: Sent St. Mjosgard ["OP13-092">OP13-092] to Deck Bottom from Trash
+[Mence​#1383] Shirahoshi ["OP05-082">OP05-082]: Sent St. Shepherd Ju Peter ["OP13-084">OP13-084] to Deck Bottom from Trash
+[Mence​#1383] Forcing opponent to resolve Card Action!
+[Mence​#1383] Deploy Five Elders ["OP13-082">OP13-082]
+[Mence​#1383] Five Elders ["OP13-082">OP13-082]: Trash St. Topman Warcury ["OP13-089">OP13-089]
+[Mence​#1383] Five Elders ["OP13-082">OP13-082]: Trash St. Jaygarcia Saturn ["OP13-083">OP13-083]
+[Mence​#1383] Five Elders ["OP13-082">OP13-082]: Trash St. Topman Warcury ["OP13-089">OP13-089]
+[Mence​#1383] Five Elders ["OP13-082">OP13-082]: Trash St. Shepherd Ju Peter ["OP13-084">OP13-084]
+[Mence​#1383] Five Elders ["OP13-082">OP13-082]: Trash Shirahoshi ["OP05-082">OP05-082]
+[Mence​#1383] Five Elders ["OP13-082">OP13-082]: Trash Five Elders ["OP13-082">OP13-082]
+[Mence​#1383] Five Elders ["OP13-082">OP13-082]: Deployed St. Marcus Mars ["OP13-091">OP13-091] from Trash
+[Mence​#1383] Five Elders ["OP13-082">OP13-082]: Deployed St. Shepherd Ju Peter ["OP13-084">OP13-084] from Trash
+[Mence​#1383] Five Elders ["OP13-082">OP13-082]: Deployed St. Jaygarcia Saturn ["OP13-083">OP13-083] from Trash
+[Mence​#1383] Five Elders ["OP13-082">OP13-082]: Deployed St. Topman Warcury ["OP13-089">OP13-089] from Trash
+[Mence​#1383] <b>Reveal and Draw Five Elders ["OP13-082">OP13-082]</b>
+[Mence​#1383] Placing Cards on Bottom of Deck
+[Mence​#1383] End Turn
+[jmi​#8380] Draw 1 Card
+[jmi​#8380] Draw 2 Don
+[jmi​#8380] St. Topman Warcury ["OP13-089">OP13-089] attacking Imu ["OP13-079">OP13-079]
+[Mence​#1383] Discard Shirahoshi ["OP05-082">OP05-082] for Counter 2000
+St. Topman Warcury ["OP13-089">OP13-089][5000] vs Imu ["OP13-079">OP13-079][7000]
+Attack Fails
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Trash St. Topman Warcury ["OP13-089">OP13-089]
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Draw 1 Card
+[jmi​#8380] Imu ["OP13-079">OP13-079] attacking Imu ["OP13-079">OP13-079]
+[Mence​#1383] St. Topman Warcury ["OP13-089">OP13-089] Blocks
+Imu ["OP13-079">OP13-079][5000] vs St. Topman Warcury ["OP13-089">OP13-089][5000]
+[Mence​#1383] St. Topman Warcury ["OP13-089">OP13-089] Destroyed
+[Mence​#1383] St. Topman Warcury ["OP13-089">OP13-089]: Draw 1 Card
+[jmi​#8380] Deploy Five Elders ["OP13-082">OP13-082]
+[jmi​#8380] Five Elders ["OP13-082">OP13-082]: Trash St. Topman Warcury ["OP13-089">OP13-089]
+[jmi​#8380] Five Elders ["OP13-082">OP13-082]: Trash Five Elders ["OP13-082">OP13-082]
+[jmi​#8380] Five Elders ["OP13-082">OP13-082]: Deployed St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080] from Trash
+[jmi​#8380] Five Elders ["OP13-082">OP13-082]: Deployed St. Jaygarcia Saturn ["OP13-083">OP13-083] from Trash
+[jmi​#8380] Five Elders ["OP13-082">OP13-082]: Deployed St. Shepherd Ju Peter ["OP13-084">OP13-084] from Trash
+[jmi​#8380] Five Elders ["OP13-082">OP13-082]: Deployed St. Topman Warcury ["OP13-089">OP13-089] from Trash
+[jmi​#8380] Five Elders ["OP13-082">OP13-082]: Deployed St. Marcus Mars ["OP13-091">OP13-091] from Trash
+[jmi​#8380] <b>Reveal and Draw St. Topman Warcury ["OP13-089">OP13-089]</b>
+[jmi​#8380] Placing Cards on Bottom of Deck
+[jmi​#8380] St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080] attacking Imu ["OP13-079">OP13-079]
+[jmi​#8380] St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080]: Buff St. Marcus Mars ["OP13-091">OP13-091] -2000
+[Mence​#1383] St. Marcus Mars ["OP13-091">OP13-091] Blocks
+St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080][7000] vs St. Marcus Mars ["OP13-091">OP13-091][3000]
+[Mence​#1383] St. Marcus Mars ["OP13-091">OP13-091] Destroyed
+[jmi​#8380] End Turn
+[Mence​#1383] Draw 1 Card
+[Mence​#1383] St. Jaygarcia Saturn ["OP13-083">OP13-083] attacking St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080]
+St. Jaygarcia Saturn ["OP13-083">OP13-083][7000] vs St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080][5000]
+[jmi​#8380] St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080] Destroyed
+[Mence​#1383] St. Shepherd Ju Peter ["OP13-084">OP13-084] attacking Imu ["OP13-079">OP13-079]
+St. Shepherd Ju Peter ["OP13-084">OP13-084][7000] vs Imu ["OP13-079">OP13-079][5000]
+Imu ["OP13-079">OP13-079] hit for 1 damage
+[Mence​#1383] Imu ["OP13-079">OP13-079]: Trash St. Jaygarcia Saturn ["OP13-083">OP13-083]
+[Mence​#1383] Imu ["OP13-079">OP13-079]: Draw 1 Card
+[Mence​#1383] Deploy Five Elders ["OP13-082">OP13-082]
+[Mence​#1383] Five Elders ["OP13-082">OP13-082]: Trash St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080]
+[Mence​#1383] Five Elders ["OP13-082">OP13-082]: Trash St. Shepherd Ju Peter ["OP13-084">OP13-084]
+[Mence​#1383] Five Elders ["OP13-082">OP13-082]: Trash Five Elders ["OP13-082">OP13-082]
+[Mence​#1383] Five Elders ["OP13-082">OP13-082]: Deployed St. Topman Warcury ["OP13-089">OP13-089] from Trash
+[Mence​#1383] Five Elders ["OP13-082">OP13-082]: Deployed St. Marcus Mars ["OP13-091">OP13-091] from Trash
+[Mence​#1383] Five Elders ["OP13-082">OP13-082]: Deployed St. Jaygarcia Saturn ["OP13-083">OP13-083] from Trash
+[Mence​#1383] Five Elders ["OP13-082">OP13-082]: Deployed St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080] from Trash
+[Mence​#1383] Five Elders ["OP13-082">OP13-082]: Deployed St. Shepherd Ju Peter ["OP13-084">OP13-084] from Trash
+[Mence​#1383] <b>Reveal and Draw St. Shepherd Ju Peter ["OP13-084">OP13-084]</b>
+[Mence​#1383] Placing Cards on Bottom of Deck
+[Mence​#1383] St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080] attacking Imu ["OP13-079">OP13-079]
+[Mence​#1383] St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080]: Buff St. Marcus Mars ["OP13-091">OP13-091] -2000
+[jmi​#8380] Discard St. Shepherd Ju Peter ["OP13-084">OP13-084] for Counter 2000
+[jmi​#8380] Discard St. Topman Warcury ["OP13-089">OP13-089] for Counter 1000
+St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080][7000] vs Imu ["OP13-079">OP13-079][8000]
+Attack Fails
+[Mence​#1383] Imu ["OP13-079">OP13-079] attacking Imu ["OP13-079">OP13-079]
+[jmi​#8380] St. Topman Warcury ["OP13-089">OP13-089] Blocks
+[jmi​#8380] Discard St. Charlos ["OP13-087">OP13-087] for Counter 1000
+Imu ["OP13-079">OP13-079][5000] vs St. Topman Warcury ["OP13-089">OP13-089][6000]
+Attack Fails
+[Mence​#1383] End Turn
+[jmi​#8380] Draw 1 Card
+[jmi​#8380] St. Shepherd Ju Peter ["OP13-084">OP13-084] attacking Imu ["OP13-079">OP13-079]
+[Mence​#1383] Discard St. Marcus Mars ["OP13-091">OP13-091] for Counter 1000
+[Mence​#1383] Discard St. Shepherd Ju Peter ["OP13-084">OP13-084] for Counter 2000
+St. Shepherd Ju Peter ["OP13-084">OP13-084][7000] vs Imu ["OP13-079">OP13-079][8000]
+Attack Fails
+[jmi​#8380] St. Jaygarcia Saturn ["OP13-083">OP13-083] attacking Imu ["OP13-079">OP13-079]
+[Mence​#1383] St. Topman Warcury ["OP13-089">OP13-089] Blocks
+St. Jaygarcia Saturn ["OP13-083">OP13-083][7000] vs St. Topman Warcury ["OP13-089">OP13-089][5000]
+[Mence​#1383] St. Topman Warcury ["OP13-089">OP13-089] Destroyed
+[Mence​#1383] St. Topman Warcury ["OP13-089">OP13-089]: Draw 1 Card
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Trash St. Jaygarcia Saturn ["OP13-083">OP13-083]
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Draw 1 Card
+[jmi​#8380] St. Marcus Mars ["OP13-091">OP13-091] attacking Imu ["OP13-079">OP13-079]
+[Mence​#1383] St. Marcus Mars ["OP13-091">OP13-091] Blocks
+St. Marcus Mars ["OP13-091">OP13-091][7000] vs St. Marcus Mars ["OP13-091">OP13-091][5000]
+[Mence​#1383] St. Marcus Mars ["OP13-091">OP13-091] Destroyed
+[jmi​#8380] St. Topman Warcury ["OP13-089">OP13-089] attacking Imu ["OP13-079">OP13-079]
+St. Topman Warcury ["OP13-089">OP13-089][7000] vs Imu ["OP13-079">OP13-079][5000]
+Imu ["OP13-079">OP13-079] hit for 1 damage
+[jmi​#8380] Attach 10 Don to Imu ["OP13-079">OP13-079] (10 Total)
+[jmi​#8380] Imu ["OP13-079">OP13-079] attacking Imu ["OP13-079">OP13-079]
+[jmi​#8380] Wins!
+Imu ["OP13-079">OP13-079][15000] vs Imu ["OP13-079">OP13-079][5000]
+Imu ["OP13-079">OP13-079] hit for 1 damage
+[Mence​#1383] Loses
+[Mence​#1383] Quits!
+Opponent Has Disconnected!
+OpponentDisconnect

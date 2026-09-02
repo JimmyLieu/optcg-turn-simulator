@@ -1,0 +1,281 @@
+Attempting to connect to WJ96QWJ
+Version is 1.36b
+[Iloveyourmum​#6559] Leader is Donquixote Rosinante ["OP12-061">OP12-061]
+jmi​#8380 Has Connected
+Version is 1.36b
+[jmi​#8380] Leader is Imu ["OP13-079">OP13-079]
+[Iloveyourmum​#6559] Chose to go Second
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Deploy The Empty Throne ["OP13-099">OP13-099]
+[jmi​#8380] Draw 1 Don
+[jmi​#8380] Deploy St. Shalria ["OP13-086">OP13-086]
+[jmi​#8380] St. Shalria ["OP13-086">OP13-086]: <b>Reveal and Draw St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080]</b>
+[jmi​#8380] St. Shalria ["OP13-086">OP13-086]: Trash 2 Remaining Cards
+[jmi​#8380] St. Shalria ["OP13-086">OP13-086]: Trash St. Topman Warcury ["OP13-089">OP13-089]
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Trash St. Shalria ["OP13-086">OP13-086]
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Draw 1 Card
+[jmi​#8380] End Turn
+[Iloveyourmum​#6559] Draw 1 Card
+[Iloveyourmum​#6559] Draw 2 Don
+[Iloveyourmum​#6559] Deploy Trafalgar Law ["OP09-069">OP09-069]
+[Iloveyourmum​#6559] Trafalgar Law ["OP09-069">OP09-069]: <b>Reveal and Draw Trafalgar Law ["EB03-062">EB03-062]</b>
+[Iloveyourmum​#6559] Placing Cards on Bottom of Deck
+[Iloveyourmum​#6559] Deploy Donquixote Rosinante ["OP12-108">OP12-108]
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-108">OP12-108]: <b>Reveal and Draw Trafalgar Law ["P-093">P-093]</b>
+[Iloveyourmum​#6559] Placing Cards on Bottom of Deck
+[Iloveyourmum​#6559] End Turn
+[jmi​#8380] Draw 1 Card
+[jmi​#8380] Draw 2 Don
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Trash St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080]
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Draw 1 Card
+[jmi​#8380] Deploy St. Shalria ["OP13-086">OP13-086]
+[jmi​#8380] St. Shalria ["OP13-086">OP13-086]: <b>Reveal and Draw St. Shepherd Ju Peter ["OP13-084">OP13-084]</b>
+[jmi​#8380] St. Shalria ["OP13-086">OP13-086]: Trash 2 Remaining Cards
+[jmi​#8380] St. Shalria ["OP13-086">OP13-086]: Trash St. Shepherd Ju Peter ["OP13-084">OP13-084]
+[jmi​#8380] Imu ["OP13-079">OP13-079] attacking Donquixote Rosinante ["OP12-061">OP12-061]
+Imu ["OP13-079">OP13-079][5000] vs Donquixote Rosinante ["OP12-061">OP12-061][5000]
+Donquixote Rosinante ["OP12-061">OP12-061] hit for 1 damage
+[jmi​#8380] End Turn
+[Iloveyourmum​#6559] Draw 1 Card
+[Iloveyourmum​#6559] Draw 2 Don
+[Iloveyourmum​#6559] Attach 1 Don to Donquixote Rosinante ["OP12-061">OP12-061] (1 Total)
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061] attacking Imu ["OP13-079">OP13-079]
+Donquixote Rosinante ["OP12-061">OP12-061][6000] vs Imu ["OP13-079">OP13-079][5000]
+Imu ["OP13-079">OP13-079] hit for 1 damage
+[Iloveyourmum​#6559] Deploy Donquixote Rosinante ["OP12-108">OP12-108]
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-108">OP12-108]: <b>Reveal and Draw Trafalgar Law ["OP09-069">OP09-069]</b>
+[Iloveyourmum​#6559] Placing Cards on Bottom of Deck
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061]: Minus 1 Don
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061]: Next Trafalgar Law Cost 4 or Higher is 2 Cheaper
+[Iloveyourmum​#6559] Deploy Trafalgar Law ["P-093">P-093]
+Trafalgar Law ["P-093">P-093]: Draw 1 Rested Don
+[Iloveyourmum​#6559] End Turn
+[jmi​#8380] Draw 1 Card
+[jmi​#8380] Draw 2 Don
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Trash St. Shalria ["OP13-086">OP13-086]
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Draw 1 Card
+[jmi​#8380] Attach 1 Don to Imu ["OP13-079">OP13-079] (1 Total)
+[jmi​#8380] Imu ["OP13-079">OP13-079] attacking Donquixote Rosinante ["OP12-061">OP12-061]
+[Iloveyourmum​#6559] Trafalgar Law ["P-093">P-093] Blocks
+[Iloveyourmum​#6559] Discard Trafalgar Law ["OP09-069">OP09-069] for Counter 1000
+Imu ["OP13-079">OP13-079][6000] vs Trafalgar Law ["P-093">P-093][7000]
+Attack Fails
+[jmi​#8380] The Empty Throne ["OP13-099">OP13-099]: Rest The Empty Throne ["OP13-099">OP13-099]
+[jmi​#8380] The Empty Throne ["OP13-099">OP13-099]: Deploy St. Topman Warcury ["OP13-089">OP13-089]
+[jmi​#8380] End Turn
+[Iloveyourmum​#6559] Draw 1 Card
+[Iloveyourmum​#6559] Draw 2 Don
+[Iloveyourmum​#6559] Attach 1 Don to Trafalgar Law ["P-093">P-093] (1 Total)
+[Iloveyourmum​#6559] Trafalgar Law ["P-093">P-093] attacking Imu ["OP13-079">OP13-079]
+[jmi​#8380] ...Never Existed... ["OP13-098">OP13-098]: Activate Counter
+[jmi​#8380] ...Never Existed... ["OP13-098">OP13-098]: Buff Imu ["OP13-079">OP13-079] 4000 for the Combat
+Trafalgar Law ["P-093">P-093][7000] vs Imu ["OP13-079">OP13-079][9000]
+Attack Fails
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061]: Minus 1 Don
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061]: Next Trafalgar Law Cost 4 or Higher is 2 Cheaper
+[Iloveyourmum​#6559] Deploy Rosinante & Law ["EB04-038">EB04-038]
+[Iloveyourmum​#6559] Rosinante & Law ["EB04-038">EB04-038]: Draw 1 Card
+Rosinante & Law ["EB04-038">EB04-038]: Draw 1 Don
+[Iloveyourmum​#6559] Attach 2 Don to Donquixote Rosinante ["OP12-061">OP12-061] (2 Total)
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061] attacking Imu ["OP13-079">OP13-079]
+Donquixote Rosinante ["OP12-061">OP12-061][7000] vs Imu ["OP13-079">OP13-079][5000]
+Imu ["OP13-079">OP13-079] hit for 1 damage
+[Iloveyourmum​#6559] End Turn
+[jmi​#8380] Draw 1 Card
+[jmi​#8380] Draw 2 Don
+[jmi​#8380] The Five Elders... Are At Your Service ["OP13-096">OP13-096]: <b>Reveal and Draw St. Shepherd Ju Peter ["OP13-084">OP13-084]</b>
+[jmi​#8380] The Five Elders... Are At Your Service ["OP13-096">OP13-096]: Trash 2 Remaining Cards
+[jmi​#8380] The Empty Throne ["OP13-099">OP13-099]: Rest The Empty Throne ["OP13-099">OP13-099]
+[jmi​#8380] The Empty Throne ["OP13-099">OP13-099]: Deploy St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080]
+[jmi​#8380] St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080] attacking Trafalgar Law ["P-093">P-093]
+[jmi​#8380] St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080]: Buff Trafalgar Law ["P-093">P-093] -2000
+[Iloveyourmum​#6559] Rosinante & Law ["EB04-038">EB04-038] Blocks
+St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080][5000] vs Rosinante & Law ["EB04-038">EB04-038][8000]
+Attack Fails
+[jmi​#8380] Imu ["OP13-079">OP13-079] attacking Trafalgar Law ["P-093">P-093]
+Imu ["OP13-079">OP13-079][5000] vs Trafalgar Law ["P-093">P-093][4000]
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061]: Takes Top Life
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061]: Prevent Effect To Trafalgar Law ["P-093">P-093]
+[jmi​#8380] Attach 1 Don to St. Topman Warcury ["OP13-089">OP13-089] (1 Total)
+[jmi​#8380] St. Topman Warcury ["OP13-089">OP13-089] attacking Trafalgar Law ["P-093">P-093]
+[Iloveyourmum​#6559] Discard Trafalgar Law ["P-088">P-088] for Counter 2000
+[Iloveyourmum​#6559] Discard Baby 5 ["OP12-112">OP12-112] for Counter 2000
+St. Topman Warcury ["OP13-089">OP13-089][6000] vs Trafalgar Law ["P-093">P-093][8000]
+Attack Fails
+[jmi​#8380] End Turn
+[Iloveyourmum​#6559] Draw 1 Card
+[Iloveyourmum​#6559] Draw 2 Don
+[Iloveyourmum​#6559] Gamma Knife ["OP05-077">OP05-077]: Minus 1 Don
+[Iloveyourmum​#6559] Gamma Knife ["OP05-077">OP05-077]: Buff St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080] -5000
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-108">OP12-108] attacking St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080]
+Donquixote Rosinante ["OP12-108">OP12-108][2000] vs St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080][0]
+[jmi​#8380] St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080] Destroyed
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061]: Minus 1 Don
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061]: Next Trafalgar Law Cost 4 or Higher is 2 Cheaper
+[Iloveyourmum​#6559] Trash Trafalgar Law ["OP09-069">OP09-069]
+[Iloveyourmum​#6559] Deploy Trafalgar Law ["EB03-062">EB03-062]
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061] attacking Imu ["OP13-079">OP13-079]
+[jmi​#8380] Discard St. Shalria ["OP13-086">OP13-086] for Counter 1000
+Donquixote Rosinante ["OP12-061">OP12-061][5000] vs Imu ["OP13-079">OP13-079][6000]
+Attack Fails
+[Iloveyourmum​#6559] Trafalgar Law ["P-093">P-093] attacking Imu ["OP13-079">OP13-079]
+[jmi​#8380] Discard St. Shepherd Ju Peter ["OP13-084">OP13-084] for Counter 2000
+Trafalgar Law ["P-093">P-093][6000] vs Imu ["OP13-079">OP13-079][7000]
+Attack Fails
+[Iloveyourmum​#6559] Rosinante & Law ["EB04-038">EB04-038] attacking Imu ["OP13-079">OP13-079]
+[jmi​#8380] ...Never Existed... ["OP13-098">OP13-098]: Activate Counter
+[jmi​#8380] ...Never Existed... ["OP13-098">OP13-098]: Buff Imu ["OP13-079">OP13-079] 4000 for the Combat
+Rosinante & Law ["EB04-038">EB04-038][8000] vs Imu ["OP13-079">OP13-079][9000]
+Attack Fails
+[Iloveyourmum​#6559] Trafalgar Law ["EB03-062">EB03-062] attacking Imu ["OP13-079">OP13-079]
+Trafalgar Law ["EB03-062">EB03-062][6000] vs Imu ["OP13-079">OP13-079][5000]
+Imu ["OP13-079">OP13-079] hit for 1 damage
+[Iloveyourmum​#6559] Trafalgar Law ["EB03-062">EB03-062]: Trash Trafalgar Law ["EB03-062">EB03-062]
+[Iloveyourmum​#6559] Trafalgar Law ["EB03-062">EB03-062]: Trash Vergo ["OP14-061">OP14-061]
+[Iloveyourmum​#6559] Trafalgar Law ["EB03-062">EB03-062]: Add card to top of Life from Deck
+[Iloveyourmum​#6559] Trafalgar Law ["EB03-062">EB03-062]: Deploy Rosinante & Law ["EB04-038">EB04-038]
+[Iloveyourmum​#6559] Rosinante & Law ["EB04-038">EB04-038]: Draw 1 Card
+Rosinante & Law ["EB04-038">EB04-038]: Draw 1 Don
+[Iloveyourmum​#6559] End Turn
+[jmi​#8380] Draw 1 Card
+[jmi​#8380] Draw 2 Don
+[jmi​#8380] Deploy St. Jaygarcia Saturn ["OP13-083">OP13-083]
+[jmi​#8380] St. Jaygarcia Saturn ["OP13-083">OP13-083]: <b>Reveal and Draw St. Marcus Mars ["OP13-091">OP13-091]</b>
+[jmi​#8380] Placing Cards on Bottom of Deck
+[jmi​#8380] Imu ["OP13-079">OP13-079] attacking Donquixote Rosinante ["OP12-061">OP12-061]
+Imu ["OP13-079">OP13-079][5000] vs Donquixote Rosinante ["OP12-061">OP12-061][5000]
+Donquixote Rosinante ["OP12-061">OP12-061] hit for 1 damage
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Trash St. Jaygarcia Saturn ["OP13-083">OP13-083]
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Draw 1 Card
+[jmi​#8380] The Empty Throne ["OP13-099">OP13-099]: Rest The Empty Throne ["OP13-099">OP13-099]
+[jmi​#8380] The Empty Throne ["OP13-099">OP13-099]: Deploy St. Marcus Mars ["OP13-091">OP13-091]
+[jmi​#8380] St. Marcus Mars ["OP13-091">OP13-091]: Trash The Holy Land Mary Geoise ["OP05-097">OP05-097]
+[jmi​#8380] St. Marcus Mars ["OP13-091">OP13-091]: Destroy Trafalgar Law ["P-093">P-093]
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061]: Takes Top Life
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061]: Prevent Effect To Trafalgar Law ["P-093">P-093]
+[jmi​#8380] End Turn
+[Iloveyourmum​#6559] Draw 1 Card
+[Iloveyourmum​#6559] Draw 2 Don
+[Iloveyourmum​#6559] Trash Donquixote Rosinante ["OP12-108">OP12-108]
+[Iloveyourmum​#6559] Deploy Trafalgar Law ["OP09-069">OP09-069]
+[Iloveyourmum​#6559] Trafalgar Law ["OP09-069">OP09-069]: <b>Reveal and Draw Trafalgar Law ["EB03-062">EB03-062]</b>
+[Iloveyourmum​#6559] Placing Cards on Bottom of Deck
+[Iloveyourmum​#6559] Trash Donquixote Rosinante ["OP12-108">OP12-108]
+[Iloveyourmum​#6559] Deploy Usohachi ["ST18-001">ST18-001]
+[Iloveyourmum​#6559] Usohachi ["ST18-001">ST18-001]: Rest St. Topman Warcury ["OP13-089">OP13-089]
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061]: Minus 1 Don
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061]: Next Trafalgar Law Cost 4 or Higher is 2 Cheaper
+[Iloveyourmum​#6559] Trash Trafalgar Law ["OP09-069">OP09-069]
+[Iloveyourmum​#6559] Deploy Rosinante & Law ["EB04-038">EB04-038]
+[Iloveyourmum​#6559] Rosinante & Law ["EB04-038">EB04-038]: Draw 1 Card
+Rosinante & Law ["EB04-038">EB04-038]: Draw 1 Don
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061] attacking Imu ["OP13-079">OP13-079]
+[jmi​#8380] Discard St. Mjosgard ["OP13-092">OP13-092] for Counter 2000
+Donquixote Rosinante ["OP12-061">OP12-061][5000] vs Imu ["OP13-079">OP13-079][7000]
+Attack Fails
+[Iloveyourmum​#6559] Attach 1 Don to Trafalgar Law ["P-093">P-093] (1 Total)
+[Iloveyourmum​#6559] Trafalgar Law ["P-093">P-093] attacking Imu ["OP13-079">OP13-079]
+[jmi​#8380] Ground Death ["OP14-096">OP14-096]: Activate Counter
+[jmi​#8380] Ground Death ["OP14-096">OP14-096]: Buff Imu ["OP13-079">OP13-079] 4000 for the Combat
+Trafalgar Law ["P-093">P-093][7000] vs Imu ["OP13-079">OP13-079][9000]
+Attack Fails
+[Iloveyourmum​#6559] Rosinante & Law ["EB04-038">EB04-038] attacking Imu ["OP13-079">OP13-079]
+[jmi​#8380] Ground Death ["OP14-096">OP14-096]: Activate Counter
+[jmi​#8380] Ground Death ["OP14-096">OP14-096]: Buff Imu ["OP13-079">OP13-079] 4000 for the Combat
+Rosinante & Law ["EB04-038">EB04-038][8000] vs Imu ["OP13-079">OP13-079][9000]
+Attack Fails
+[Iloveyourmum​#6559] Rosinante & Law ["EB04-038">EB04-038] attacking Imu ["OP13-079">OP13-079]
+[jmi​#8380] St. Marcus Mars ["OP13-091">OP13-091] Blocks
+Rosinante & Law ["EB04-038">EB04-038][8000] vs St. Marcus Mars ["OP13-091">OP13-091][5000]
+[jmi​#8380] St. Marcus Mars ["OP13-091">OP13-091] Destroyed
+[Iloveyourmum​#6559] End Turn
+[jmi​#8380] Draw 1 Card
+[jmi​#8380] Draw 2 Don
+[jmi​#8380] St. Topman Warcury ["OP13-089">OP13-089] attacking Donquixote Rosinante ["OP12-061">OP12-061]
+[Iloveyourmum​#6559] Discard Trafalgar Law ["EB03-062">EB03-062] for Counter 1000
+St. Topman Warcury ["OP13-089">OP13-089][5000] vs Donquixote Rosinante ["OP12-061">OP12-061][6000]
+Attack Fails
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Trash St. Topman Warcury ["OP13-089">OP13-089]
+[jmi​#8380] Imu ["OP13-079">OP13-079]: Draw 1 Card
+[jmi​#8380] The Empty Throne ["OP13-099">OP13-099]: Rest The Empty Throne ["OP13-099">OP13-099]
+[jmi​#8380] The Empty Throne ["OP13-099">OP13-099]: Deploy Five Elders ["OP13-082">OP13-082]
+[jmi​#8380] Five Elders ["OP13-082">OP13-082]: Trash Five Elders ["OP13-082">OP13-082]
+[jmi​#8380] Five Elders ["OP13-082">OP13-082]: Trash Five Elders ["OP13-082">OP13-082]
+[jmi​#8380] Five Elders ["OP13-082">OP13-082]: Deployed St. Topman Warcury ["OP13-089">OP13-089] from Trash
+[jmi​#8380] Five Elders ["OP13-082">OP13-082]: Deployed St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080] from Trash
+[jmi​#8380] Five Elders ["OP13-082">OP13-082]: Deployed St. Shepherd Ju Peter ["OP13-084">OP13-084] from Trash
+[jmi​#8380] Five Elders ["OP13-082">OP13-082]: Deployed St. Marcus Mars ["OP13-091">OP13-091] from Trash
+[jmi​#8380] Five Elders ["OP13-082">OP13-082]: Deployed St. Jaygarcia Saturn ["OP13-083">OP13-083] from Trash
+[jmi​#8380] St. Jaygarcia Saturn ["OP13-083">OP13-083]: <b>Reveal and Draw ...Never Existed... ["OP13-098">OP13-098]</b>
+[jmi​#8380] Placing Cards on Bottom of Deck
+[jmi​#8380] St. Marcus Mars ["OP13-091">OP13-091]: Trash Five Elders ["OP13-082">OP13-082]
+[jmi​#8380] St. Marcus Mars ["OP13-091">OP13-091]: Destroy Trafalgar Law ["P-093">P-093]
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061]: Takes Top Life
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061]: Prevent Effect To Trafalgar Law ["P-093">P-093]
+[jmi​#8380] Attach 2 Don to St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080] (2 Total)
+[jmi​#8380] St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080] attacking Donquixote Rosinante ["OP12-061">OP12-061]
+[jmi​#8380] St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080]: Buff Rosinante & Law ["EB04-038">EB04-038] -2000
+[Iloveyourmum​#6559] I Love You!! ["OP12-115">OP12-115]: Activate Counter
+[Iloveyourmum​#6559] I Love You!! ["OP12-115">OP12-115]: Buff Donquixote Rosinante ["OP12-061">OP12-061] 2000 for the Combat
+[Iloveyourmum​#6559] <b>Draw Trafalgar Law ["P-088">P-088] from Trash</b>
+[Iloveyourmum​#6559] Discard Trafalgar Law ["P-088">P-088] for Counter 2000
+[Iloveyourmum​#6559] Discard Trafalgar Law ["EB03-062">EB03-062] for Counter 1000
+St. Ethanbaron V. Nusjuro ["OP13-080">OP13-080][9000] vs Donquixote Rosinante ["OP12-061">OP12-061][10000]
+Attack Fails
+[jmi​#8380] Attach 3 Don to Imu ["OP13-079">OP13-079] (3 Total)
+[jmi​#8380] Imu ["OP13-079">OP13-079] attacking Donquixote Rosinante ["OP12-061">OP12-061]
+[Iloveyourmum​#6559] Rosinante & Law ["EB04-038">EB04-038] Blocks
+Imu ["OP13-079">OP13-079][9000] vs Rosinante & Law ["EB04-038">EB04-038][6000]
+[Iloveyourmum​#6559] Rosinante & Law ["EB04-038">EB04-038] Destroyed
+[jmi​#8380] End Turn
+[Iloveyourmum​#6559] Draw 1 Card
+[Iloveyourmum​#6559] Draw 2 Don
+[Iloveyourmum​#6559] Attach 1 Don to Rosinante & Law ["EB04-038">EB04-038] (1 Total)
+[Iloveyourmum​#6559] Rosinante & Law ["EB04-038">EB04-038] attacking Imu ["OP13-079">OP13-079]
+Rosinante & Law ["EB04-038">EB04-038][9000] vs Imu ["OP13-079">OP13-079][5000]
+Imu ["OP13-079">OP13-079] hit for 1 damage
+[Iloveyourmum​#6559] Attach 1 Don to Rosinante & Law ["EB04-038">EB04-038] (1 Total)
+[Iloveyourmum​#6559] Rosinante & Law ["EB04-038">EB04-038] attacking Imu ["OP13-079">OP13-079]
+[jmi​#8380] St. Topman Warcury ["OP13-089">OP13-089] Blocks
+Rosinante & Law ["EB04-038">EB04-038][9000] vs St. Topman Warcury ["OP13-089">OP13-089][5000]
+[jmi​#8380] St. Topman Warcury ["OP13-089">OP13-089] Destroyed
+[jmi​#8380] St. Topman Warcury ["OP13-089">OP13-089]: Draw 1 Card
+[Iloveyourmum​#6559] Attach 1 Don to Trafalgar Law ["P-093">P-093] (1 Total)
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061]: Minus 1 Don
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061]: Next Trafalgar Law Cost 4 or Higher is 2 Cheaper
+[Iloveyourmum​#6559] Deploy Trafalgar Law ["OP12-073">OP12-073]
+Trafalgar Law ["OP12-073">OP12-073]: Draw 1 Don
+[Iloveyourmum​#6559] Trafalgar Law ["OP12-073">OP12-073]: Grant Trafalgar Law ["P-093">P-093] 1000 until opponent's next turn end
+[Iloveyourmum​#6559] Trafalgar Law ["OP12-073">OP12-073]: Grant Rosinante & Law ["EB04-038">EB04-038] 1000 until opponent's next turn end
+[Iloveyourmum​#6559] Trafalgar Law ["OP12-073">OP12-073]: Grant Rosinante & Law ["EB04-038">EB04-038] 1000 until opponent's next turn end
+[Iloveyourmum​#6559] Trafalgar Law ["OP12-073">OP12-073]: Grant Trafalgar Law ["OP12-073">OP12-073] 1000 until opponent's next turn end
+[Iloveyourmum​#6559] Trafalgar Law ["OP12-073">OP12-073]: Grant Donquixote Rosinante ["OP12-061">OP12-061] 1000 until opponent's next turn end
+[Iloveyourmum​#6559] Trafalgar Law ["P-093">P-093] attacking Imu ["OP13-079">OP13-079]
+[jmi​#8380] ...Never Existed... ["OP13-098">OP13-098]: Activate Counter
+[jmi​#8380] ...Never Existed... ["OP13-098">OP13-098]: Buff Imu ["OP13-079">OP13-079] 4000 for the Combat
+Trafalgar Law ["P-093">P-093][8000] vs Imu ["OP13-079">OP13-079][9000]
+Attack Fails
+[Iloveyourmum​#6559] Donquixote Rosinante ["OP12-061">OP12-061] attacking Imu ["OP13-079">OP13-079]
+[jmi​#8380] Discard St. Mjosgard ["OP13-092">OP13-092] for Counter 2000
+Donquixote Rosinante ["OP12-061">OP12-061][6000] vs Imu ["OP13-079">OP13-079][7000]
+Attack Fails
+[Iloveyourmum​#6559] End Turn
+[jmi​#8380] Draw 1 Card
+[jmi​#8380] Attach 1 Don to St. Shepherd Ju Peter ["OP13-084">OP13-084] (1 Total)
+[jmi​#8380] St. Shepherd Ju Peter ["OP13-084">OP13-084] attacking Donquixote Rosinante ["OP12-061">OP12-061]
+[Iloveyourmum​#6559] Bullet String ["OP14-078">OP14-078]: Activate Counter
+[Iloveyourmum​#6559] Bullet String ["OP14-078">OP14-078]: Minus 1 Don
+[Iloveyourmum​#6559] Bullet String ["OP14-078">OP14-078]: Buff Donquixote Rosinante ["OP12-061">OP12-061] 2000
+[Iloveyourmum​#6559] Bullet String ["OP14-078">OP14-078]: Buff Donquixote Rosinante ["OP12-061">OP12-061] 2000 for the Combat
+St. Shepherd Ju Peter ["OP13-084">OP13-084][8000] vs Donquixote Rosinante ["OP12-061">OP12-061][10000]
+Attack Fails
+[jmi​#8380] Attach 1 Don to St. Jaygarcia Saturn ["OP13-083">OP13-083] (1 Total)
+[jmi​#8380] St. Jaygarcia Saturn ["OP13-083">OP13-083] attacking Donquixote Rosinante ["OP12-061">OP12-061]
+[Iloveyourmum​#6559] I Love You!! ["OP12-115">OP12-115]: Activate Counter
+[Iloveyourmum​#6559] I Love You!! ["OP12-115">OP12-115]: Buff Donquixote Rosinante ["OP12-061">OP12-061] 2000 for the Combat
+[Iloveyourmum​#6559] <b>Draw Trafalgar Law ["P-088">P-088] from Trash</b>
+St. Jaygarcia Saturn ["OP13-083">OP13-083][8000] vs Donquixote Rosinante ["OP12-061">OP12-061][10000]
+Attack Fails
+[Iloveyourmum​#6559] Concedes!
+[Iloveyourmum​#6559] Quits!
+Opponent Has Disconnected!
+OpponentDisconnect

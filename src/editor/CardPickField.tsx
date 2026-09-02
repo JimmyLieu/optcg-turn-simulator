@@ -9,10 +9,12 @@ type Props = {
   onCardIdChange: (id: string) => void
   /** Unique id for labels / a11y (e.g. `turn-0-first-card-1`) */
   fieldId: string
+  /** Fallback name when the catalog has no row (replay logs). */
+  titleHint?: string
 }
 
-export function CardPickField({ cardId, onCardIdChange, fieldId }: Props) {
-  const [nameQuery, setNameQuery] = useState('')
+export function CardPickField({ cardId, onCardIdChange, fieldId, titleHint }: Props) {
+  const [nameQuery, setNameQuery] = useState(titleHint ?? '')
   const [debouncedQuery, setDebouncedQuery] = useState('')
   const [results, setResults] = useState<OptcgCardRow[]>([])
   const [searching, setSearching] = useState(false)
@@ -36,15 +38,16 @@ export function CardPickField({ cardId, onCardIdChange, fieldId }: Props) {
     let cancelled = false
     const t = window.setTimeout(() => {
       fetchCardBySetId(raw.toUpperCase()).then((row) => {
-        if (cancelled || !row) return
-        setNameQuery(row.card_name)
+        if (cancelled) return
+        if (row) setNameQuery(row.card_name)
+        else if (titleHint) setNameQuery(titleHint)
       })
     }, 450)
     return () => {
       cancelled = true
       window.clearTimeout(t)
     }
-  }, [cardId])
+  }, [cardId, titleHint])
 
   useEffect(() => {
     if (debouncedQuery.length < 2) {

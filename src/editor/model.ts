@@ -3,21 +3,34 @@ import type { MatchupCurve } from '../types/curve'
 /** One line in the editor — OPTCG `card_set_id` (e.g. OP01-001). */
 export type EditorCardSlot = {
   id: string
+  /** Display name from a replay log when the catalog has no row yet. */
+  title?: string
 }
 
 /** How 2+ cards combine in the preview (single-card ignores this). */
-export type EditorSideJoin = 'seq' | 'or' | 'and'
+export type EditorSideJoin = 'seq' | 'or' | 'and' | 'effect'
+
+export type EditorActionLine = {
+  text: string
+  kind?: 'effect' | 'sub' | 'combat' | 'ko' | 'damage' | 'concede' | 'note'
+  outcome?: string
+}
 
 export type EditorSide = {
   cards: EditorCardSlot[]
   callout: string
   /** One join per gap between consecutive cards. Length = cards.length - 1. */
   joins: EditorSideJoin[]
+  /** DON!! available this turn (from a combat log). */
+  don?: number
+  actions?: EditorActionLine[]
 }
 
 export type EditorTurn = {
   first: EditorSide
   second: EditorSide
+  firstLife?: number
+  secondLife?: number
 }
 
 /** Which deck (left or right in the form) takes the first turn in the game. */
@@ -25,6 +38,7 @@ export type GoingFirst = 'firstDeck' | 'secondDeck'
 
 export type EditorMatchup = {
   title: string
+  summary?: string
   firstDeck: MatchupCurve['firstDeck']
   secondDeck: MatchupCurve['secondDeck']
   goingFirst: GoingFirst

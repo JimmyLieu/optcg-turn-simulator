@@ -162,9 +162,10 @@ function JoinPicker({
         value={value}
         onChange={(e) => onChange(e.target.value as EditorSideJoin)}
       >
-        <option value="seq">Sequence ↓</option>
-        <option value="or">Or</option>
+        <option value="seq">Sequence →</option>
+        <option value="effect">Effect →</option>
         <option value="and">And +</option>
+        <option value="or">Or</option>
       </select>
     </div>
   )
@@ -217,6 +218,7 @@ function SideEditor({
               <CardPickField
                 fieldId={`${joinGroupId}-card-${ci}`}
                 cardId={slot.id}
+                titleHint={slot.title}
                 onCardIdChange={(id) => setCardId(ci, id)}
               />
               <button

@@ -2,6 +2,7 @@ import { forwardRef, useMemo, useRef, useState } from 'react'
 import { TurnCurveBoard } from './components/TurnCurveBoard'
 import { MatchupEditor } from './editor/MatchupEditor'
 import { createNewMatchup } from './editor/model'
+import { ImportCombatLogButton } from './editor/ImportCombatLog'
 import { editorToMatchupCurve } from './editor/toCurve'
 import { downloadMatchupCurvePng } from './lib/exportMatchupPng'
 import './App.css'
@@ -92,6 +93,12 @@ function App() {
         >
           New matchup
         </button>
+        <ImportCombatLogButton
+          onImported={(next) => {
+            setEditor(next)
+            setTab('preview')
+          }}
+        />
       </div>
 
       {tab === 'edit' ? (

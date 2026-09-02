@@ -11,6 +11,8 @@ export type OptcgCardRow = {
   set_id?: string | null
   card_type?: string | null
   card_color?: string | null
+  card_cost?: string | null
+  card_power?: string | null
 }
 
 /** Normalize user input to the key form used in the card map (e.g. op01-001 → OP01-001). */
@@ -41,6 +43,10 @@ export async function searchLeadersByName(query: string, limit = 24): Promise<Op
   return rows.filter((r) => r.card_type === 'Leader').slice(0, limit)
 }
 
-export async function fetchCardBySetId(cardSetId: string): Promise<OptcgCardRow | null> {
+export function getCardBySetId(cardSetId: string): OptcgCardRow | null {
   return cardMap.get(normalizeCardSetId(cardSetId)) ?? null
+}
+
+export async function fetchCardBySetId(cardSetId: string): Promise<OptcgCardRow | null> {
+  return getCardBySetId(cardSetId)
 }

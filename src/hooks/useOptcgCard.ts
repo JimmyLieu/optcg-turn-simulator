@@ -10,7 +10,12 @@ export type OptcgCardState =
 export function useOptcgCard(
   cardSetId: string,
   options?: { imageUrl?: string; title?: string },
-): OptcgCardState & { displayTitle: string; displayImageUrl: string | undefined } {
+): OptcgCardState & {
+  displayTitle: string
+  displayImageUrl: string | undefined
+  displayCost: string | undefined
+  displayPower: string | undefined
+} {
   const imageUrlOverride = options?.imageUrl
   const titleHint = options?.title
 
@@ -59,6 +64,8 @@ export function useOptcgCard(
       ...state,
       displayTitle: title,
       displayImageUrl: proxiedOptcgImageUrl(state.row.card_image),
+      displayCost: state.row.card_cost ?? undefined,
+      displayPower: state.row.card_power ?? undefined,
     }
   }
   if (state.status === 'error') {
@@ -66,11 +73,15 @@ export function useOptcgCard(
       ...state,
       displayTitle: titleHint ?? cardSetId,
       displayImageUrl: undefined,
+      displayCost: undefined,
+      displayPower: undefined,
     }
   }
   return {
     ...state,
     displayTitle: titleHint ?? cardSetId,
     displayImageUrl: undefined,
+    displayCost: undefined,
+    displayPower: undefined,
   }
 }

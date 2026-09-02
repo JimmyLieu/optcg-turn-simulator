@@ -25,21 +25,41 @@ export type PlayExpr =
   | { t: 'and'; parts: PlayExpr[] }
   | { t: 'fork'; head: PlayExpr; tails: PlayExpr[] }
 
+export type PlayLineItem = {
+  card: CardRef
+  /** How this card follows the previous one in a horizontal log. */
+  via?: 'and' | 'effect' | 'or' | 'seq'
+}
+
+export type ActionLine = {
+  text: string
+  kind?: 'effect' | 'sub' | 'combat' | 'ko' | 'damage' | 'concede' | 'note'
+  /** Combat result label, e.g. "+1 damage" or "K.O." */
+  outcome?: string
+}
+
 export type TurnSide = {
   /** Recommended line for this turn */
   play: PlayExpr
+  /** Flat play order for the combat-log layout */
+  playLine?: PlayLineItem[]
   /** Optional banner (e.g. mechanic reminder) */
   callout?: string
+  don?: number
+  actions?: ActionLine[]
 }
 
 export type TurnRow = {
   turn: number
+  firstLife?: number
+  secondLife?: number
   firstPlayer: TurnSide
   secondPlayer: TurnSide
 }
 
 export type MatchupCurve = {
   title: string
+  summary?: string
   firstDeck: {
     name: string
     subtitle: string

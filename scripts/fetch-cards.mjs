@@ -6,7 +6,16 @@ import { writeFileSync } from 'node:fs'
 
 const BASE = 'https://optcgapi.com'
 const OUT = 'src/data/cards.json'
-const FIELDS = ['card_set_id', 'card_name', 'card_image', 'set_id', 'card_type', 'card_color']
+const FIELDS = [
+  'card_set_id',
+  'card_name',
+  'card_image',
+  'set_id',
+  'card_type',
+  'card_color',
+  'card_cost',
+  'card_power',
+]
 
 async function fetchAll(path) {
   console.log(`Fetching ${BASE}${path} ...`)

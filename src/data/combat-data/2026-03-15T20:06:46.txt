@@ -1,0 +1,6 @@
+[You] Quits!
+Version is 1.36b
+[You] Leader is Imu ["OP13-079">OP13-079]
+[Opponent] Leader is Roronoa Zoro ["OP12-020">OP12-020]
+[You] Imu ["OP13-079">OP13-079]: Deploy The Empty Throne ["OP13-099">OP13-099]
+Start_WaitOnMulliganChoice
