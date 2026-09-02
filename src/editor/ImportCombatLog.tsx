@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from 'react'
+import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import type { EditorMatchup } from './model'
 import { combatLogToEditorMatchup, CombatLogParseError } from '../lib/parseCombatLog'
 
@@ -19,9 +19,20 @@ export function ImportCombatLogButton({ onImported }: Props) {
   const [open, setOpen] = useState(false)
   const [draft, setDraft] = useState('')
   const [error, setError] = useState<string | null>(null)
-  const [busy, setBusy] = useState(false)
+  const [pasting, setPasting] = useState(false)
   const textareaId = useId()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const close = useCallback(() => {
+    setOpen(false)
+    setError(null)
+  }, [])
+
+  const openModal = useCallback(() => {
+    setDraft('')
+    setError(null)
+    setOpen(true)
+  }, [])
 
   useEffect(() => {
     if (!open) return
@@ -29,18 +40,25 @@ export function ImportCombatLogButton({ onImported }: Props) {
     return () => window.clearTimeout(t)
   }, [open])
 
+  useEffect(() => {
+    if (!open) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') close()
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [open, close])
+
   const applyLog = (raw: string) => {
     const text = raw.trim()
     if (!text) {
-      setError('Clipboard is empty — copy a combat log first, or paste it below.')
-      setOpen(true)
+      setError('Paste a combat log above, or use Paste from clipboard.')
       return false
     }
     try {
       onImported(combatLogToEditorMatchup(text))
-      setOpen(false)
+      close()
       setDraft('')
-      setError(null)
       return true
     } catch (e) {
       const message =
@@ -48,21 +66,20 @@ export function ImportCombatLogButton({ onImported }: Props) {
           ? e.message
           : 'Could not parse this combat log.'
       setError(message)
-      setOpen(true)
       return false
     }
   }
 
-  const onClickImport = async () => {
-    setBusy(true)
+  const pasteFromClipboard = async () => {
+    setPasting(true)
     setError(null)
     const clip = await readClipboardText()
-    setBusy(false)
-    if (clip) {
-      applyLog(clip)
+    setPasting(false)
+    if (!clip) {
+      setError('Could not read the clipboard — paste the log manually below.')
       return
     }
-    setOpen(true)
+    setDraft(clip)
   }
 
   return (
@@ -70,10 +87,9 @@ export function ImportCombatLogButton({ onImported }: Props) {
       <button
         type="button"
         className="app-toolbar__reset"
-        disabled={busy}
-        onClick={() => void onClickImport()}
+        onClick={openModal}
       >
-        {busy ? 'Reading…' : 'Import combat log'}
+        Import combat log
       </button>
 
       {open ? (
@@ -83,13 +99,13 @@ export function ImportCombatLogButton({ onImported }: Props) {
           aria-modal="true"
           aria-labelledby="mu-import-title"
         >
-          <div className="mu-import__backdrop" onClick={() => setOpen(false)} />
+          <div className="mu-import__backdrop" onClick={close} />
           <div className="mu-import__panel">
             <h2 id="mu-import-title" className="mu-import__title">
               Import combat log
             </h2>
             <p className="mu-import__hint">
-              Copy a Sim replay, then click Import — or paste the log here.
+              Paste a Sim replay log below, then build the matchup.
             </p>
             <label className="mu-editor__label" htmlFor={textareaId}>
               Combat log
@@ -99,7 +115,10 @@ export function ImportCombatLogButton({ onImported }: Props) {
               id={textareaId}
               className="mu-import__textarea"
               value={draft}
-              onChange={(e) => setDraft(e.target.value)}
+              onChange={(e) => {
+                setDraft(e.target.value)
+                if (error) setError(null)
+              }}
               placeholder="Paste the full combat log…"
               spellCheck={false}
             />
@@ -112,7 +131,15 @@ export function ImportCombatLogButton({ onImported }: Props) {
               >
                 Build matchup
               </button>
-              <button type="button" className="mu-editor__btn" onClick={() => setOpen(false)}>
+              <button
+                type="button"
+                className="mu-editor__btn"
+                disabled={pasting}
+                onClick={() => void pasteFromClipboard()}
+              >
+                {pasting ? 'Reading…' : 'Paste from clipboard'}
+              </button>
+              <button type="button" className="mu-editor__btn" onClick={close}>
                 Cancel
               </button>
             </div>
