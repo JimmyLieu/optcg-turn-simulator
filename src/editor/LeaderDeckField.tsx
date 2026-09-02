@@ -3,7 +3,7 @@ import type { MatchupCurve } from '../types/curve'
 import { apiCardColorToDeckColors } from '../lib/apiCardColor'
 import type { OptcgCardRow } from '../lib/optcgApi'
 import { fetchCardBySetId, searchLeadersByName } from '../lib/optcgApi'
-import { useOptcgCard } from '../hooks/useOptcgCard'
+import { CardPreviewFromId, CardSearchResultButton } from './CardPreview'
 
 type Deck = MatchupCurve['firstDeck']
 
@@ -11,34 +11,6 @@ type Props = {
   label: string
   deck: Deck
   onChange: (patch: Partial<Deck>) => void
-}
-
-function LeaderThumb({ cardId }: { cardId: string }) {
-  const { status, displayImageUrl } = useOptcgCard(cardId)
-
-  if (status === 'loading') {
-    return (
-      <div className="mu-editor__leader-placeholder">
-        <span>Loading…</span>
-      </div>
-    )
-  }
-  if (status === 'error' || !displayImageUrl) {
-    return (
-      <div className="mu-editor__leader-placeholder">
-        <span>No art</span>
-      </div>
-    )
-  }
-  return (
-    <img
-      className="mu-editor__leader-art"
-      src={displayImageUrl}
-      alt=""
-      width={200}
-      height={280}
-    />
-  )
 }
 
 const DEBOUNCE_MS = 320
@@ -141,7 +113,7 @@ export function LeaderDeckField({ label, deck, onChange }: Props) {
 
       <div className={`mu-editor__leader-frame ${id ? 'has-id' : ''}`}>
         {id ? (
-          <LeaderThumb cardId={normalizedId(id)} />
+          <CardPreviewFromId cardId={normalizedId(id)} size="lg" />
         ) : (
           <div className="mu-editor__leader-placeholder">
             <span>Search by name or enter ID</span>
@@ -176,16 +148,7 @@ export function LeaderDeckField({ label, deck, onChange }: Props) {
           <ul className="mu-editor__leader-results" role="listbox">
             {results.map((row) => (
               <li key={row.card_set_id} role="presentation">
-                <button
-                  type="button"
-                  className="mu-editor__leader-result"
-                  role="option"
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => pickRow(row)}
-                >
-                  <span className="mu-editor__leader-result-name">{row.card_name}</span>
-                  <span className="mu-editor__leader-result-id">{row.card_set_id}</span>
-                </button>
+                <CardSearchResultButton row={row} onSelect={() => pickRow(row)} />
               </li>
             ))}
           </ul>

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { OptcgCardRow } from '../lib/optcgApi'
 import { fetchCardBySetId, searchCardsByName } from '../lib/optcgApi'
+import { CardPreviewFromId, CardSearchResultButton } from './CardPreview'
 
 const DEBOUNCE_MS = 320
 
@@ -107,8 +108,14 @@ export function CardPickField({ cardId, onCardIdChange, fieldId, titleHint }: Pr
   const searchInputId = `${fieldId}-search`
   const idInputId = `${fieldId}-id`
 
+  const hasCard = cardId.trim().length > 0
+
   return (
-    <div className="mu-editor__card-pick">
+    <div className={`mu-editor__card-pick${hasCard ? ' mu-editor__card-pick--has-card' : ''}`}>
+      {hasCard ? (
+        <CardPreviewFromId cardId={cardId} titleHint={titleHint} size="sm" />
+      ) : null}
+      <div className="mu-editor__card-pick-fields">
       <div className="mu-editor__card-pick-search" ref={searchWrapRef}>
         <label className="mu-editor__label mu-editor__label--compact" htmlFor={searchInputId}>
           Search by name
@@ -136,19 +143,7 @@ export function CardPickField({ cardId, onCardIdChange, fieldId, titleHint }: Pr
           <ul className="mu-editor__leader-results mu-editor__leader-results--compact" role="listbox">
             {results.map((row) => (
               <li key={row.card_set_id} role="presentation">
-                <button
-                  type="button"
-                  className="mu-editor__leader-result"
-                  role="option"
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => applyRow(row)}
-                >
-                  <span className="mu-editor__leader-result-name">{row.card_name}</span>
-                  <span className="mu-editor__leader-result-id">
-                    {row.card_set_id}
-                    {row.card_type ? ` · ${row.card_type}` : ''}
-                  </span>
-                </button>
+                <CardSearchResultButton row={row} onSelect={() => applyRow(row)} compact />
               </li>
             ))}
           </ul>
@@ -173,6 +168,7 @@ export function CardPickField({ cardId, onCardIdChange, fieldId, titleHint }: Pr
       />
 
       {lookupError ? <p className="mu-editor__card-pick-error">{lookupError}</p> : null}
+      </div>
     </div>
   )
 }
