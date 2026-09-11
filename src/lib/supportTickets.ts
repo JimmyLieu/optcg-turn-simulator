@@ -8,12 +8,26 @@ export type SupportTicketInput = {
 }
 
 export type SupportTicketRow = {
-  id: string
-  created_at: string
+  id: string | null
 }
 
 const MAX_LOG_CHARS = 1_500_000
 const MAX_NOTE_CHARS = 8_000
+
+function errorMessage(error: unknown): string {
+  if (error && typeof error === 'object' && 'message' in error) {
+    const msg = String((error as { message?: unknown }).message ?? '')
+    if (/row-level security|42501/i.test(msg)) {
+      return 'Ticket blocked by database permissions. Re-run supabase/support_tickets.sql in the Supabase SQL Editor (includes GRANT + RLS).'
+    }
+    if (/Could not find the table|PGRST205/i.test(msg)) {
+      return 'support_tickets table is missing. Run supabase/support_tickets.sql in the Supabase SQL Editor.'
+    }
+    if (msg) return msg
+  }
+  if (error instanceof Error && error.message) return error.message
+  return 'Could not submit the support ticket.'
+}
 
 export async function submitSupportTicket(
   input: SupportTicketInput,
@@ -31,19 +45,16 @@ export async function submitSupportTicket(
     throw new Error('That combat log is too large to submit. Trim it or zip and email instead.')
   }
 
-  const { data, error } = await supabase
-    .from('support_tickets')
-    .insert({
-      note: note || '(no note)',
-      log_text: logText,
-      file_name: input.fileName,
-      user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : null,
-      user_id: input.userId ?? null,
-      status: 'open',
-    })
-    .select('id, created_at')
-    .single()
+  // No .select() after insert — there is intentionally no SELECT RLS policy for the public.
+  const { error } = await supabase.from('support_tickets').insert({
+    note: note || '(no note)',
+    log_text: logText,
+    file_name: input.fileName,
+    user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : null,
+    user_id: input.userId ?? null,
+    status: 'open',
+  })
 
-  if (error) throw error
-  return data as SupportTicketRow
+  if (error) throw new Error(errorMessage(error))
+  return { id: null }
 }

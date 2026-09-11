@@ -113,13 +113,13 @@ export function SupportButton() {
     setError(null)
     setStatus(null)
     try {
-      const row = await submitSupportTicket({
+      await submitSupportTicket({
         note,
         logText: log,
         fileName,
         userId: auth.user?.id ?? null,
       })
-      setStatus(`Ticket sent (${row.id.slice(0, 8)}…). Thanks — we’ll take a look.`)
+      setStatus('Ticket sent. Thanks — we’ll take a look.')
       setNote('')
       setLog('')
       setFileName(null)

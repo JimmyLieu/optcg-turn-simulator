@@ -21,8 +21,12 @@ create index if not exists support_tickets_status_idx
 
 alter table public.support_tickets enable row level security;
 
--- Public submit (guests + signed-in). No SELECT/UPDATE/DELETE for anon/authenticated
--- so tickets are only visible in the Supabase Table Editor (service role).
+-- Allow the browser anon key + signed-in users to insert rows.
+grant usage on schema public to anon, authenticated;
+grant insert on table public.support_tickets to anon, authenticated;
+
+-- Public submit (guests + signed-in). No SELECT for anon/authenticated —
+-- tickets are only visible in the Supabase Table Editor (service role).
 drop policy if exists "Anyone can submit support tickets" on public.support_tickets;
 create policy "Anyone can submit support tickets"
   on public.support_tickets for insert
