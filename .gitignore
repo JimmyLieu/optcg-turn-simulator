@@ -10,10 +10,20 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+
+# Env / secrets (keep .env.example as placeholders only)
 .env
 .env.*
 !.env.example
 *.local
+*.pem
+*.p12
+*.key
+credentials.json
+service-account*.json
+
+# Local combat logs (player names / match data — not fixtures used by the app)
+src/data/combat-data/
 
 # Vercel CLI link metadata
 .vercel

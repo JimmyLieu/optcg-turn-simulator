@@ -1,14 +1,7 @@
 import { useCallback, useEffect, useId, useRef, useState, type ChangeEvent } from 'react'
-import { SUPPORT_EMAIL, SUPPORT_NAME } from '../lib/supportConfig'
-
-async function writeClipboardText(text: string): Promise<boolean> {
-  try {
-    await navigator.clipboard.writeText(text)
-    return true
-  } catch {
-    return false
-  }
-}
+import { useAuth } from '../hooks/useAuth'
+import { isSupabaseConfigured } from '../lib/supabaseClient'
+import { submitSupportTicket } from '../lib/supportTickets'
 
 function readTextFile(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -19,25 +12,8 @@ function readTextFile(file: File): Promise<string> {
   })
 }
 
-function buildSupportReport(note: string, log: string, fileName: string | null): string {
-  const trimmedNote = note.trim() || '(no note)'
-  const trimmedLog = log.trim() || '(no combat log attached)'
-  return [
-    'OPTCG Matchup Curve — support report',
-    `Date: ${new Date().toISOString()}`,
-    `User agent: ${navigator.userAgent}`,
-    fileName ? `Log file: ${fileName}` : 'Log file: (uploaded text)',
-    '',
-    '--- What went wrong ---',
-    trimmedNote,
-    '',
-    '--- Combat log ---',
-    trimmedLog,
-    '',
-  ].join('\n')
-}
-
 export function SupportButton() {
+  const auth = useAuth()
   const [open, setOpen] = useState(false)
   const [note, setNote] = useState('')
   const [log, setLog] = useState('')
@@ -45,7 +21,7 @@ export function SupportButton() {
   const [error, setError] = useState<string | null>(null)
   const [status, setStatus] = useState<string | null>(null)
   const [loadingFile, setLoadingFile] = useState(false)
-  const [copying, setCopying] = useState(false)
+  const [sending, setSending] = useState(false)
   const [dragging, setDragging] = useState(false)
   const noteId = useId()
   const fileId = useId()
@@ -117,7 +93,7 @@ export function SupportButton() {
     void loadFile(file)
   }
 
-  const copyReport = async () => {
+  const submitTicket = async () => {
     if (!log.trim() && !note.trim()) {
       setError('Add a short note and upload a combat log first.')
       setStatus(null)
@@ -128,38 +104,31 @@ export function SupportButton() {
       setStatus(null)
       return
     }
-    setCopying(true)
-    setError(null)
-    const report = buildSupportReport(note, log, fileName)
-    const ok = await writeClipboardText(report)
-    setCopying(false)
-    if (!ok) {
-      setError('Could not copy to the clipboard. Try again, or contact support another way.')
+    if (!isSupabaseConfigured) {
+      setError('Support tickets need Supabase configured (VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY).')
       return
     }
-    setStatus(
-      SUPPORT_EMAIL
-        ? `Report copied. Paste it into an email to ${SUPPORT_EMAIL}.`
-        : `Report copied. Paste it into a message to ${SUPPORT_NAME}.`,
-    )
-  }
 
-  const emailSupport = async () => {
-    if (!SUPPORT_EMAIL) return
-    await copyReport()
-    const subject = encodeURIComponent('Matchup Curve support report')
-    const body = encodeURIComponent(
-      [
-        note.trim() || 'Hi — I hit an issue with Matchup Curve.',
-        fileName ? `Log file: ${fileName}` : '',
-        '',
-        '(The full combat log is on my clipboard — paste it below.)',
-        '',
-      ]
-        .filter(Boolean)
-        .join('\n'),
-    )
-    window.location.href = `mailto:${SUPPORT_EMAIL}?subject=${subject}&body=${body}`
+    setSending(true)
+    setError(null)
+    setStatus(null)
+    try {
+      const row = await submitSupportTicket({
+        note,
+        logText: log,
+        fileName,
+        userId: auth.user?.id ?? null,
+      })
+      setStatus(`Ticket sent (${row.id.slice(0, 8)}…). Thanks — we’ll take a look.`)
+      setNote('')
+      setLog('')
+      setFileName(null)
+      if (fileRef.current) fileRef.current.value = ''
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not submit the support ticket.')
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -181,8 +150,8 @@ export function SupportButton() {
               Support
             </h2>
             <p className="mu-import__hint">
-              Upload the combat log that broke and add a short note. We&apos;ll package a report
-              you can copy and send.
+              Upload the combat log that broke and add a short note. We’ll get a ticket with
+              everything needed to reproduce it.
             </p>
 
             <label className="mu-editor__label" htmlFor={noteId}>
@@ -269,21 +238,11 @@ export function SupportButton() {
               <button
                 type="button"
                 className="mu-editor__btn mu-editor__btn--primary"
-                disabled={copying || loadingFile}
-                onClick={() => void copyReport()}
+                disabled={sending || loadingFile}
+                onClick={() => void submitTicket()}
               >
-                {copying ? 'Copying…' : 'Copy support report'}
+                {sending ? 'Sending…' : 'Send ticket'}
               </button>
-              {SUPPORT_EMAIL ? (
-                <button
-                  type="button"
-                  className="mu-editor__btn"
-                  disabled={loadingFile}
-                  onClick={() => void emailSupport()}
-                >
-                  Email {SUPPORT_NAME}
-                </button>
-              ) : null}
               <button type="button" className="mu-editor__btn" onClick={close}>
                 Close
               </button>
