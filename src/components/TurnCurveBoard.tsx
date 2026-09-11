@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import type { ActionLine, CardRef, CounterEntry, MatchupCurve, PlayLineItem, TurnRow as TurnRowType, TurnSide } from '../types/curve'
 import { leaderBarStyle } from '../lib/deckTheme'
 import { useOptcgCard } from '../hooks/useOptcgCard'
@@ -67,7 +68,7 @@ function PlayStrip({ side }: { side: TurnSide }) {
   return (
     <div className="log-strip">
       {items.map((item, i) => (
-        <div key={`${item.card.id}-${i}`} className="log-strip__item">
+        <div key={`${item.card.id}-${i}`} className="log-strip__item" style={{ '--i': i } as CSSProperties}>
           {i > 0 ? <JoinGlyph via={item.via} /> : null}
           <LogCard card={item.card} />
         </div>
@@ -111,6 +112,12 @@ function CounterAction({ line }: { line: ActionLine }) {
 function CombatAction({ line }: { line: ActionLine }) {
   const outcomeClass =
     line.kind === 'ko' ? 'is-ko' : line.kind === 'damage' ? 'is-damage' : 'is-fail'
+  const outcomeLabel =
+    line.outcome === 'fail'
+      ? 'fail'
+      : line.outcome
+        ? line.outcome
+        : null
 
   return (
     <li className="log-actions__combat-block">
@@ -118,17 +125,9 @@ function CombatAction({ line }: { line: ActionLine }) {
         <CounterChip key={`${counter.cardId}-${i}`} counter={counter} />
       ))}
       <div className="log-actions__combat">
-        <strong>{line.text}</strong>
-        {line.outcome && line.outcome !== 'fail' ? (
-          <>
-            {' → '}
-            <span className={`log-outcome ${outcomeClass}`}>{line.outcome}</span>
-          </>
-        ) : line.outcome === 'fail' ? (
-          <>
-            {' → '}
-            <span className="log-outcome is-fail">fail</span>
-          </>
+        <span className="log-actions__combat-text">{line.text}</span>
+        {outcomeLabel ? (
+          <span className={`log-outcome ${outcomeClass}`}>{outcomeLabel}</span>
         ) : null}
       </div>
     </li>
@@ -167,20 +166,27 @@ function HandStrip({ hand }: { hand: string[] }) {
   if (hand.length === 0) return null
   return (
     <div className="log-hand">
-      <span className="log-hand__label">Hand ({hand.length})</span>
+      <span className="log-hand__label">Hand · {hand.length}</span>
       <div className="log-hand__strip">
         {hand.map((id, i) => (
-          <LogCard key={`${id}-${i}`} card={{ id }} compact />
+          <div key={`${id}-${i}`} className="log-hand__slot" style={{ '--i': i } as CSSProperties}>
+            <LogCard card={{ id }} compact />
+          </div>
         ))}
       </div>
     </div>
   )
 }
 
-function TurnPanel({ side }: { side: TurnSide }) {
+function TurnPanel({ side, lane }: { side: TurnSide; lane: 'a' | 'b' }) {
   return (
-    <div className="log-panel">
-      {side.don != null ? <span className="log-panel__don">{side.don} DON!!</span> : null}
+    <div className={`log-panel log-panel--${lane}`}>
+      <div className="log-panel__rail" aria-hidden="true" />
+      {side.don != null ? (
+        <span className="log-panel__don">
+          <em>{side.don}</em> DON!!
+        </span>
+      ) : null}
       <PlayStrip side={side} />
       <ActionList actions={side.actions ?? []} />
       {side.hand ? <HandStrip hand={side.hand} /> : null}
@@ -189,40 +195,53 @@ function TurnPanel({ side }: { side: TurnSide }) {
 }
 
 function TurnRow({ row }: { row: TurnRowType }) {
+  const turnPad = String(row.turn).padStart(2, '0')
+
   return (
-    <div className="log-turn">
-      <TurnPanel side={row.firstPlayer} />
+    <article className="log-turn" style={{ '--turn': row.turn } as CSSProperties}>
+      <TurnPanel side={row.firstPlayer} lane="a" />
       <div className="log-axis">
         <span className="log-axis__line" aria-hidden="true" />
-        <div className="log-axis__pill">
-          <span className="log-axis__turn">Turn {row.turn}</span>
+        <div className="log-axis__mark">
+          <span className="log-axis__ghost" aria-hidden="true">
+            {turnPad}
+          </span>
+          <span className="log-axis__turn">Turn</span>
+          <span className="log-axis__num">{turnPad}</span>
           {row.firstLife != null && row.secondLife != null ? (
-            <span className="log-axis__life">
-              {row.firstLife} Life {row.secondLife}
-            </span>
+            <div className="log-axis__life" aria-label={`Life ${row.firstLife} to ${row.secondLife}`}>
+              <span>{row.firstLife}</span>
+              <i aria-hidden="true" />
+              <span>{row.secondLife}</span>
+            </div>
           ) : null}
         </div>
       </div>
-      <TurnPanel side={row.secondPlayer} />
-    </div>
+      <TurnPanel side={row.secondPlayer} lane="b" />
+    </article>
   )
 }
 
 export function TurnCurveBoard({ data }: { data: MatchupCurve }) {
   return (
     <div className="log-board">
-      <header className="log-board__title-block">
+      <header className="log-board__masthead">
+        <p className="log-board__kicker">Combat curve</p>
         <h2 className="log-board__title">{data.title}</h2>
         {data.summary ? <p className="log-board__summary">{data.summary}</p> : null}
       </header>
 
       <div className="log-board__headers">
-        <div className="log-board__player" style={leaderBarStyle(data.firstDeck.colors)}>
+        <div className="log-board__player log-board__player--a" style={leaderBarStyle(data.firstDeck.colors)}>
+          <span className="log-board__lane">01 · First</span>
           <span className="log-board__player-name">{data.firstDeck.name}</span>
           <span className="log-board__player-id">{data.firstDeck.subtitle}</span>
         </div>
-        <div className="log-board__headers-gap" />
-        <div className="log-board__player" style={leaderBarStyle(data.secondDeck.colors)}>
+        <div className="log-board__vs" aria-hidden="true">
+          <span>vs</span>
+        </div>
+        <div className="log-board__player log-board__player--b" style={leaderBarStyle(data.secondDeck.colors)}>
+          <span className="log-board__lane">02 · Second</span>
           <span className="log-board__player-name">{data.secondDeck.name}</span>
           <span className="log-board__player-id">{data.secondDeck.subtitle}</span>
         </div>
@@ -234,17 +253,17 @@ export function TurnCurveBoard({ data }: { data: MatchupCurve }) {
         ))}
       </div>
 
-      <p className="log-legend">
+      <footer className="log-legend">
         <span>
-          <em>--</em> effect that triggers or modifies
+          <em>–</em> effect
         </span>
         <span>
-          <strong>+</strong> plays from the same turn
+          <strong>+</strong> same-turn play
         </span>
         <span>
-          <strong>→</strong> one card puts another onto the field
+          <strong>→</strong> put into play
         </span>
-      </p>
+      </footer>
     </div>
   )
 }

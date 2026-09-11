@@ -1,20 +1,24 @@
 import type { CSSProperties } from 'react'
 import type { DeckColor, DeckColors } from './deckColors'
 
+/** Soft graphite deck bars — readable on cool gray glass. */
 const BAR: Record<DeckColor, string> = {
-  red: '#7a1c22',
-  black: '#2a2a2a',
-  yellow: '#8a7314',
-  blue: '#1d3d66',
-  green: '#1f5c3a',
-  purple: '#4a2d63',
+  red: '#6f3034',
+  black: '#2c2c2b',
+  yellow: '#6f6430',
+  blue: '#334860',
+  green: '#355545',
+  purple: '#4a4254',
 }
 
 export function leaderBarStyle(colors: DeckColors): CSSProperties {
   const a = BAR[colors.primary]
   const b = colors.secondary && colors.secondary !== colors.primary ? BAR[colors.secondary] : a
   return {
-    background: a === b ? a : `linear-gradient(90deg, ${a} 0%, ${b} 100%)`,
+    background:
+      a === b
+        ? `linear-gradient(135deg, ${a}f0 0%, ${a} 100%)`
+        : `linear-gradient(135deg, ${a}f0 0%, ${b} 100%)`,
     color: '#fff',
   }
 }

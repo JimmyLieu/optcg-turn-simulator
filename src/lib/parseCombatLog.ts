@@ -303,12 +303,16 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
   let roomId = ''
 
   let sawLocalPlayers = false
+  /** RZ1|PLY slot → username when present (hybrid logs mix You/Opponent with real names). */
+  const plyNameBySlot = new Map<number, PlayerId>()
 
   for (const ln of lines) {
     const ply = ln.match(RZ1_PLY)
     if (ply?.[3]) {
+      const slot = Number(ply[1])
       const slotName = ply[2].replace(ZWSP, '').trim()
-      const who = slotName ? slotName : localPlayerId(Number(ply[1]))
+      const who = slotName ? slotName : localPlayerId(slot)
+      if (slotName) plyNameBySlot.set(slot, slotName)
       if (!leaders.has(who)) {
         leaders.set(who, ply[3])
         leaderNames.set(who, leaderLabel(ply[3], ply[3]))
@@ -378,6 +382,22 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
       'Player 2#0'
   }
 
+  /** Map real usernames (or other aliases) onto the canonical first/second ids. */
+  const playerAlias = new Map<PlayerId, PlayerId>()
+  const resolvePlayer = (id: PlayerId): PlayerId => playerAlias.get(id) ?? id
+
+  if (isLocalMatch) {
+    for (const [slot, name] of plyNameBySlot) {
+      playerAlias.set(name, localPlayerId(slot))
+    }
+    // Also match by leader card when You/Opponent leaders were set from text.
+    for (const [pid, lid] of leaders) {
+      if (pid === YOU_ID || pid === OPPONENT_ID) continue
+      if (lid && lid === leaders.get(YOU_ID)) playerAlias.set(pid, YOU_ID)
+      if (lid && lid === leaders.get(OPPONENT_ID)) playerAlias.set(pid, OPPONENT_ID)
+    }
+  }
+
   const inPlay: Record<string, Set<string>> = {
     [first]: new Set(leaders.get(first) ? [leaders.get(first)!] : []),
     [second]: new Set(leaders.get(second) ? [leaders.get(second)!] : []),
@@ -412,7 +432,8 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
   /** Player for the in-progress `[] Hand` … `[] Life` block. */
   let activeSnapshotPlayer: 'first' | 'second' | null = null
 
-  const sideOf = (who: PlayerId): 'first' | 'second' => (who === first ? 'first' : 'second')
+  const sideOf = (who: PlayerId): 'first' | 'second' =>
+    resolvePlayer(who) === first ? 'first' : 'second'
 
   const otherSide = (side: 'first' | 'second'): 'first' | 'second' =>
     side === 'first' ? 'second' : 'first'
@@ -457,7 +478,7 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
   for (const ln of human) {
     const parsed = parsePlayerLine(ln)
     const body = parsed?.body ?? ln
-    const who = parsed?.who ?? null
+    const who = parsed?.who ? resolvePlayer(parsed.who) : null
 
     const anonHand = ln.match(ANON_HAND)
     if (anonHand) {
