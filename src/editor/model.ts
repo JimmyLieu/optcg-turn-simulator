@@ -101,3 +101,12 @@ export function createNewMatchup(): EditorMatchup {
     turns: [emptyTurn()],
   }
 }
+
+/** Flip who takes the first turn (left/right seats stay; preview columns swap). */
+export function flipTurnOrder(matchup: EditorMatchup): EditorMatchup {
+  const goingFirst = matchup.goingFirst ?? 'firstDeck'
+  return {
+    ...matchup,
+    goingFirst: goingFirst === 'firstDeck' ? 'secondDeck' : 'firstDeck',
+  }
+}

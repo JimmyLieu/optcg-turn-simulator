@@ -80,6 +80,51 @@
   min-width: 8rem;
 }
 
+.app-toolbar__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 8rem;
+}
+
+.app-toolbar__brand .app-toolbar__title {
+  flex: none;
+  min-width: 0;
+}
+
+.app-toolbar__features {
+  display: inline-flex;
+  gap: 4px;
+  padding: 3px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  width: fit-content;
+}
+
+.app-toolbar__feature {
+  appearance: none;
+  border: 0;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+  background: transparent;
+  cursor: pointer;
+}
+
+.app-toolbar__feature:hover {
+  color: var(--text);
+}
+
+.app-toolbar__feature.is-active {
+  color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.1);
+}
+
 .app-toolbar__tabs {
   display: inline-flex;
   border-radius: 10px;
@@ -529,6 +574,18 @@
   border-radius: 12px;
   border: 1px solid var(--border);
   background: var(--bg-surface);
+}
+
+.mu-editor__turn-order-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.mu-editor__turn-order-row .mu-editor__select--wide {
+  flex: 1 1 14rem;
+  min-width: 0;
 }
 
 .mu-editor__deck--leader {

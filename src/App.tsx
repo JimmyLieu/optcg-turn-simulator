@@ -1,36 +1,39 @@
 import { forwardRef, useCallback, useMemo, useRef, useState } from 'react'
 import { TurnCurveBoard } from './components/TurnCurveBoard'
 import { MatchupEditor } from './editor/MatchupEditor'
-import { createNewMatchup, type EditorMatchup } from './editor/model'
+import { createNewMatchup, flipTurnOrder, type EditorMatchup } from './editor/model'
 import { ImportCombatLogButton } from './editor/ImportCombatLog'
 import { MyReportsModal } from './editor/MyReportsModal'
 import { SignInModal } from './editor/SignInModal'
 import { SupportButton } from './editor/SupportButton'
 import { editorToMatchupCurve } from './editor/toCurve'
+import { MuGuideBoard } from './guide/MuGuideBoard'
+import { MuGuideEditor } from './guide/MuGuideEditor'
+import { createNewGuide } from './guide/model'
 import { downloadMatchupCurvePng } from './lib/exportMatchupPng'
 import { useAuth, signOut } from './hooks/useAuth'
 import { insertMatchupReport, updateMatchupReport } from './lib/matchupReports'
 import { isSupabaseConfigured } from './lib/supabaseClient'
 import './App.css'
 
+type Feature = 'curve' | 'guide'
 type Tab = 'edit' | 'preview'
 
 const AppFooter = forwardRef<HTMLElement>(function AppFooter(_, ref) {
   return (
     <footer ref={ref} className="app-footer">
       <p className="app-footer__credit">
-        Made by{' '}
-        <a>
-          Jmi
-        </a>
+        Made by <a>Jmi</a>
       </p>
     </footer>
   )
 })
 
 function App() {
+  const [feature, setFeature] = useState<Feature>('curve')
   const [tab, setTab] = useState<Tab>('edit')
   const [editor, setEditor] = useState(createNewMatchup)
+  const [guide, setGuide] = useState(createNewGuide)
   const [exporting, setExporting] = useState(false)
   const [currentReportId, setCurrentReportId] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
@@ -67,7 +70,11 @@ function App() {
     if (!el) return
     setExporting(true)
     try {
-      await downloadMatchupCurvePng(el, editor.title, { footerElement: footerRef.current })
+      const titleHint =
+        feature === 'guide'
+          ? guide.title.trim() || guide.myLeaderName || 'mu-guide'
+          : editor.title
+      await downloadMatchupCurvePng(el, titleHint, { footerElement: footerRef.current })
     } catch (e) {
       console.error(e)
       window.alert(
@@ -79,6 +86,7 @@ function App() {
   }
 
   const onSave = async () => {
+    if (feature !== 'curve') return
     if (!requireAuth('Sign in to save this matchup report.')) return
     const user = auth.user
     if (!user) return
@@ -109,6 +117,7 @@ function App() {
   }
 
   const loadReport = (id: string, matchup: EditorMatchup) => {
+    setFeature('curve')
     setEditor(matchup)
     setCurrentReportId(id)
     setTab('preview')
@@ -123,12 +132,52 @@ function App() {
     setTab('edit')
   }
 
+  const startNewGuide = () => {
+    if (!window.confirm('Discard this guide and start a new blank one?')) return
+    setGuide(createNewGuide())
+    setTab('edit')
+  }
+
+  const switchFeature = (next: Feature) => {
+    setFeature(next)
+    setTab('edit')
+    setSaveMessage(null)
+  }
+
   const userLabel = auth.user?.email ?? auth.user?.id ?? null
+  const previewShell = tab === 'preview'
 
   return (
-    <main className={`app-shell${tab === 'preview' ? ' app-shell--preview' : ''}`}>
+    <main
+      className={`app-shell${previewShell ? ' app-shell--preview' : ''}${feature === 'guide' ? ' app-shell--guide' : ''}`}
+    >
       <div className="app-toolbar">
-        <h1 className="app-toolbar__title">Matchup curve</h1>
+        <div className="app-toolbar__brand">
+          <div className="app-toolbar__features" role="tablist" aria-label="App feature">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={feature === 'curve'}
+              className={`app-toolbar__feature ${feature === 'curve' ? 'is-active' : ''}`}
+              onClick={() => switchFeature('curve')}
+            >
+              Matchup curve
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={feature === 'guide'}
+              className={`app-toolbar__feature ${feature === 'guide' ? 'is-active' : ''}`}
+              onClick={() => switchFeature('guide')}
+            >
+              MU Guide
+            </button>
+          </div>
+          <h1 className="app-toolbar__title">
+            {feature === 'guide' ? 'MU Guide' : 'Matchup curve'}
+          </h1>
+        </div>
+
         <div className="app-toolbar__tabs" role="tablist" aria-label="Editor mode">
           <button
             type="button"
@@ -149,6 +198,7 @@ function App() {
             Preview
           </button>
         </div>
+
         {tab === 'preview' ? (
           <button
             type="button"
@@ -159,33 +209,51 @@ function App() {
             {exporting ? 'Saving…' : 'Download PNG'}
           </button>
         ) : null}
-        <button type="button" className="app-toolbar__reset" onClick={startNewMatchup}>
-          New matchup
-        </button>
-        <ImportCombatLogButton
-          onImported={(next) => {
-            setEditor(next)
-            setCurrentReportId(null)
-            setSaveMessage(null)
-            setTab('preview')
-          }}
-        />
-        <button
-          type="button"
-          className="app-toolbar__reset"
-          disabled={saving || auth.loading}
-          onClick={() => void onSave()}
-        >
-          {saving ? 'Saving…' : currentReportId ? 'Save' : 'Save report'}
-        </button>
-        <button
-          type="button"
-          className="app-toolbar__reset"
-          disabled={auth.loading}
-          onClick={onOpenReports}
-        >
-          My reports
-        </button>
+
+        {feature === 'curve' ? (
+          <>
+            <button type="button" className="app-toolbar__reset" onClick={startNewMatchup}>
+              New matchup
+            </button>
+            <button
+              type="button"
+              className="app-toolbar__reset"
+              onClick={() => setEditor((prev) => flipTurnOrder(prev))}
+              title="Swap who goes first and second"
+            >
+              Swap 1st / 2nd
+            </button>
+            <ImportCombatLogButton
+              onImported={(next) => {
+                setEditor(next)
+                setCurrentReportId(null)
+                setSaveMessage(null)
+                setTab('preview')
+              }}
+            />
+            <button
+              type="button"
+              className="app-toolbar__reset"
+              disabled={saving || auth.loading}
+              onClick={() => void onSave()}
+            >
+              {saving ? 'Saving…' : currentReportId ? 'Save' : 'Save report'}
+            </button>
+            <button
+              type="button"
+              className="app-toolbar__reset"
+              disabled={auth.loading}
+              onClick={onOpenReports}
+            >
+              My reports
+            </button>
+          </>
+        ) : (
+          <button type="button" className="app-toolbar__reset" onClick={startNewGuide}>
+            New guide
+          </button>
+        )}
+
         {saveMessage ? <span className="app-toolbar__save-status">{saveMessage}</span> : null}
 
         <div className="app-toolbar__account">
@@ -225,11 +293,19 @@ function App() {
         </div>
       </div>
 
-      {tab === 'edit' ? (
-        <MatchupEditor value={editor} onChange={setEditor} />
+      {feature === 'curve' ? (
+        tab === 'edit' ? (
+          <MatchupEditor value={editor} onChange={setEditor} />
+        ) : (
+          <div ref={boardRef} className="preview-export-wrap">
+            <TurnCurveBoard data={curve} />
+          </div>
+        )
+      ) : tab === 'edit' ? (
+        <MuGuideEditor value={guide} onChange={setGuide} />
       ) : (
         <div ref={boardRef} className="preview-export-wrap">
-          <TurnCurveBoard data={curve} />
+          <MuGuideBoard data={guide} />
         </div>
       )}
 

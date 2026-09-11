@@ -5,6 +5,7 @@ import {
   type EditorTurn,
   type GoingFirst,
   emptyTurn,
+  flipTurnOrder,
   sideWithCardAdded,
   sideWithCardRemoved,
 } from './model'
@@ -62,21 +63,28 @@ export function MatchupEditor({ value, onChange }: Props) {
         <label className="mu-editor__label" htmlFor="mu-going-first">
           Who goes first?
         </label>
-        <select
-          id="mu-going-first"
-          className="mu-editor__select mu-editor__select--wide"
-          value={goingFirst}
-          onChange={(e) => setGoingFirst(e.target.value as GoingFirst)}
-        >
-          <option value="firstDeck">
-            {value.firstDeck.name} (left)
-          </option>
-          <option value="secondDeck">
-            {value.secondDeck.name} (right)
-          </option>
-        </select>
+        <div className="mu-editor__turn-order-row">
+          <select
+            id="mu-going-first"
+            className="mu-editor__select mu-editor__select--wide"
+            value={goingFirst}
+            onChange={(e) => setGoingFirst(e.target.value as GoingFirst)}
+          >
+            <option value="firstDeck">{value.firstDeck.name} (left)</option>
+            <option value="secondDeck">{value.secondDeck.name} (right)</option>
+          </select>
+          <button
+            type="button"
+            className="mu-editor__btn"
+            onClick={() => onChange(flipTurnOrder(value))}
+            title="Swap who goes first and second"
+          >
+            Swap 1st / 2nd
+          </button>
+        </div>
         <p className="mu-editor__hint">
           Preview and exported curve use game order: left column = first turn, right = second.
+          Swap flips who is first without moving your left/right deck slots.
         </p>
       </div>
 

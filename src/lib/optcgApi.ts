@@ -24,6 +24,17 @@ const cardMap = new Map<string, OptcgCardRow>(
   (cardsRaw as OptcgCardRow[]).map((c) => [c.card_set_id, c]),
 )
 
+let leadersCache: OptcgCardRow[] | null = null
+
+export function listAllLeaders(): OptcgCardRow[] {
+  if (!leadersCache) {
+    leadersCache = [...cardMap.values()]
+      .filter((c) => c.card_type === 'Leader')
+      .sort((a, b) => a.card_name.localeCompare(b.card_name))
+  }
+  return leadersCache
+}
+
 export async function searchCardsByName(query: string, limit = 60): Promise<OptcgCardRow[]> {
   const q = query.trim().toLowerCase()
   if (q.length < 2) return []
@@ -39,8 +50,16 @@ export async function searchCardsByName(query: string, limit = 60): Promise<Optc
 
 /** Leaders only — for deck leader picker. */
 export async function searchLeadersByName(query: string, limit = 24): Promise<OptcgCardRow[]> {
-  const rows = await searchCardsByName(query, 120)
-  return rows.filter((r) => r.card_type === 'Leader').slice(0, limit)
+  const q = query.trim().toLowerCase()
+  if (q.length < 2) return []
+  const results: OptcgCardRow[] = []
+  for (const card of listAllLeaders()) {
+    if (card.card_name.toLowerCase().includes(q)) {
+      results.push(card)
+      if (results.length >= limit) break
+    }
+  }
+  return results
 }
 
 export function getCardBySetId(cardSetId: string): OptcgCardRow | null {
