@@ -98,32 +98,6 @@ export async function signInWithPassword(email: string, password: string): Promi
   if (error) throw mapAuthError(error)
 }
 
-export async function signInWithMagicLink(email: string): Promise<void> {
-  if (!supabase) {
-    throw new Error('Cloud save is not configured.')
-  }
-  const { error } = await supabase.auth.signInWithOtp({
-    email: email.trim(),
-    options: {
-      emailRedirectTo: `${window.location.origin}/`,
-      shouldCreateUser: false,
-    },
-  })
-  if (error) throw mapAuthError(error)
-}
-
-export async function verifyEmailOtp(email: string, token: string): Promise<void> {
-  if (!supabase) {
-    throw new Error('Cloud save is not configured.')
-  }
-  const { error } = await supabase.auth.verifyOtp({
-    email: email.trim(),
-    token: token.trim(),
-    type: 'email',
-  })
-  if (error) throw error
-}
-
 export async function signOut(): Promise<void> {
   if (!supabase) return
   const { error } = await supabase.auth.signOut()
