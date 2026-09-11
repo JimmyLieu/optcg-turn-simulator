@@ -80,6 +80,24 @@ export function useAuth(): AuthState {
   }
 }
 
+function mapAuthError(error: { message: string; code?: string }): Error {
+  if (/signup/i.test(error.message) || error.code === 'signup_disabled') {
+    return new Error('Accounts are invite-only. Ask the admin to create your login.')
+  }
+  return new Error(error.message)
+}
+
+export async function signInWithPassword(email: string, password: string): Promise<void> {
+  if (!supabase) {
+    throw new Error('Cloud save is not configured.')
+  }
+  const { error } = await supabase.auth.signInWithPassword({
+    email: email.trim(),
+    password,
+  })
+  if (error) throw mapAuthError(error)
+}
+
 export async function signInWithMagicLink(email: string): Promise<void> {
   if (!supabase) {
     throw new Error('Cloud save is not configured.')
@@ -88,17 +106,10 @@ export async function signInWithMagicLink(email: string): Promise<void> {
     email: email.trim(),
     options: {
       emailRedirectTo: `${window.location.origin}/`,
-      shouldCreateUser: true,
+      shouldCreateUser: false,
     },
   })
-  if (error) {
-    if (/signup/i.test(error.message) || error.code === 'signup_disabled') {
-      throw new Error(
-        'New sign-ups are disabled in Supabase. Open Authentication → Providers → Email and turn on “Allow new users to sign up”.',
-      )
-    }
-    throw error
-  }
+  if (error) throw mapAuthError(error)
 }
 
 export async function verifyEmailOtp(email: string, token: string): Promise<void> {

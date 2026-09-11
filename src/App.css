@@ -236,6 +236,28 @@
   gap: 10px;
 }
 
+.mu-auth-switch {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.mu-auth-switch__btn {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.mu-auth-switch__btn:hover {
+  color: var(--text);
+}
+
 .mu-reports {
   list-style: none;
   margin: 0;
