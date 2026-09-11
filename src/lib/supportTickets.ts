@@ -38,16 +38,16 @@ export async function submitSupportTicket(
 
   const note = input.note.trim().slice(0, MAX_NOTE_CHARS)
   const logText = input.logText.trim()
-  if (!logText) {
-    throw new Error('Upload a combat log file so we can reproduce the issue.')
+  if (!note) {
+    throw new Error('Add a short note describing the issue.')
   }
   if (logText.length > MAX_LOG_CHARS) {
-    throw new Error('That combat log is too large to submit. Trim it or zip and email instead.')
+    throw new Error('That combat log is too large to submit. Trim it or attach a smaller file.')
   }
 
   // No .select() after insert — there is intentionally no SELECT RLS policy for the public.
   const { error } = await supabase.from('support_tickets').insert({
-    note: note || '(no note)',
+    note,
     log_text: logText,
     file_name: input.fileName,
     user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : null,

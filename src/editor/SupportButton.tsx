@@ -94,13 +94,8 @@ export function SupportButton() {
   }
 
   const submitTicket = async () => {
-    if (!log.trim() && !note.trim()) {
-      setError('Add a short note and upload a combat log first.')
-      setStatus(null)
-      return
-    }
-    if (!log.trim()) {
-      setError('Upload a combat log file so we can reproduce the issue.')
+    if (!note.trim()) {
+      setError('Add a short note describing the issue.')
       setStatus(null)
       return
     }
@@ -150,8 +145,7 @@ export function SupportButton() {
               Support
             </h2>
             <p className="mu-import__hint">
-              Upload the combat log that broke and add a short note. We’ll get a ticket with
-              everything needed to reproduce it.
+              Describe the issue. Optionally attach a combat log if that helps reproduce it.
             </p>
 
             <label className="mu-editor__label" htmlFor={noteId}>
@@ -172,7 +166,7 @@ export function SupportButton() {
             />
 
             <span className="mu-editor__label" id={`${fileId}-label`}>
-              Combat log file
+              Combat log file (optional)
             </span>
             <div
               className={`mu-import__drop${dragging ? ' is-dragging' : ''}${log ? ' has-file' : ''}`}
