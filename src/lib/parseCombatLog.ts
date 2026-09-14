@@ -622,32 +622,35 @@ export function combatLogToEditorMatchup(raw: string, sourceLabel?: string): Edi
 
     if (!who) continue
 
+    const deploy = body.match(DEPLOY)
+    if (deploy) {
+      const ownerSide = sideOf(who)
+      const list = playsOf(acc, ownerSide)
+      list.push({
+        title: deploy[1],
+        id: deploy[2],
+        // Out-of-turn deploys (triggers on opponent's turn) are effect plays.
+        via: who === current ? (list.length ? 'and' : undefined) : 'effect',
+      })
+      inPlay[who]?.add(deploy[2])
+      lastEffectSource = null
+      continue
+    }
+
+    const effectDeploy = body.match(EFFECT_DEPLOY)
+    if (effectDeploy) {
+      const ownerSide = sideOf(who)
+      const list = playsOf(acc, ownerSide)
+      list.push({
+        title: effectDeploy[2],
+        id: effectDeploy[3],
+        via: 'effect',
+      })
+      inPlay[who]?.add(effectDeploy[3])
+      continue
+    }
+
     if (who === current) {
-      const deploy = body.match(DEPLOY)
-      if (deploy) {
-        const list = playsOf(acc, activeSide)
-        list.push({
-          title: deploy[1],
-          id: deploy[2],
-          via: list.length ? 'and' : undefined,
-        })
-        inPlay[who]?.add(deploy[2])
-        lastEffectSource = null
-        continue
-      }
-
-      const effectDeploy = body.match(EFFECT_DEPLOY)
-      if (effectDeploy) {
-        const list = playsOf(acc, activeSide)
-        list.push({
-          title: effectDeploy[2],
-          id: effectDeploy[3],
-          via: 'effect',
-        })
-        inPlay[who]?.add(effectDeploy[3])
-        continue
-      }
-
       const trash = body.match(TRASH)
       if (trash) {
         pushAction(acc, activeSide, {

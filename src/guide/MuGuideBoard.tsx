@@ -40,7 +40,9 @@ export function MuGuideBoard({ data }: Props) {
                     <div className="mu-guide-board__vs-art">
                       <PreviewLeaderArt cardId={m.vsLeaderId} />
                     </div>
-                  ) : null}
+                  ) : (
+                    <div className="mu-guide-board__vs-art mu-guide-board__vs-art--empty" />
+                  )}
                   <h3 className="mu-guide-board__vs-name">VS {vsName}</h3>
                 </div>
 

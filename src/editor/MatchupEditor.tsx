@@ -44,7 +44,7 @@ export function MatchupEditor({ value, onChange }: Props) {
   const goingFirst = value.goingFirst ?? 'firstDeck'
 
   return (
-    <div className="mu-editor">
+    <div className="app-page mu-editor">
       <div className="mu-editor__section">
         <label className="mu-editor__label" htmlFor="mu-title">
           Matchup title

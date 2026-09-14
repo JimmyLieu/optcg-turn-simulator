@@ -55,7 +55,7 @@ export function MuGuideEditor({ value, onChange }: Props) {
   }
 
   return (
-    <div className="mu-guide-editor">
+    <div className="app-page mu-guide-editor">
       <section className="mu-editor__section">
         <h2 className="mu-editor__h">Your leader</h2>
         <p className="mu-editor__hint">
@@ -185,19 +185,21 @@ export function MuGuideEditor({ value, onChange }: Props) {
                   </button>
                 </div>
 
-                <label className="mu-editor__label" htmlFor={`${m.id}-gameplan`}>
-                  Gameplan / notes
-                </label>
-                <textarea
-                  id={`${m.id}-gameplan`}
-                  className="mu-import__textarea mu-guide-editor__notes"
-                  value={m.gameplan}
-                  onChange={(e) =>
-                    onChange(patchMatchup(value, m.id, { gameplan: e.target.value }))
-                  }
-                  placeholder="How you approach this matchup…"
-                  spellCheck
-                />
+                <div className="mu-guide-editor__notes-wrap">
+                  <label className="mu-editor__label" htmlFor={`${m.id}-gameplan`}>
+                    Gameplan / notes
+                  </label>
+                  <textarea
+                    id={`${m.id}-gameplan`}
+                    className="mu-import__textarea mu-guide-editor__notes"
+                    value={m.gameplan}
+                    onChange={(e) =>
+                      onChange(patchMatchup(value, m.id, { gameplan: e.target.value }))
+                    }
+                    placeholder="How you approach this matchup…"
+                    spellCheck
+                  />
+                </div>
               </div>
             </article>
           ))}
